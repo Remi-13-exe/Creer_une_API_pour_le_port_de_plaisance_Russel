@@ -2,14 +2,23 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth');
+const catwaysRoutes = require('./routes/catways'); // Import des routes catways
+const reservationRoutes = require("./routes/reservations");
+
 
 dotenv.config();
 
-const app = express(); // ✅ Déclare `app` avant de l'utiliser
+const app = express(); // Déclare `app` avant de l'utiliser
 app.use(express.json());
 
-// Utilisation des routes d'authentification (après la déclaration de `app`)
+// Utilisation des routes d'authentification
 app.use('/auth', authRoutes);
+
+// Utilisation des routes catways
+app.use('/catways', catwaysRoutes); // Ajout des nouvelles routes
+
+app.use("/catways", reservationRoutes);
+
 
 const PORT = process.env.PORT || 5000;
 
@@ -30,4 +39,3 @@ app.get('/', (req, res) => {
 
 // Lancement du serveur
 app.listen(PORT, () => console.log(`Serveur lancé sur le port ${PORT}`));
-

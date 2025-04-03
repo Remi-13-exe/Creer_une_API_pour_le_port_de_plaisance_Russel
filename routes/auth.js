@@ -3,7 +3,7 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const bcrypt = require('bcryptjs');
-
+const protect = require('../middleware/authMiddleware');
 
 dotenv.config();
 
@@ -14,7 +14,7 @@ router.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
 
   // Vérification si l'utilisateur existe déjà
-  const userExists = await User.findOne({ email });5
+  const userExists = await User.findOne({ email });
   if (userExists) {
     return res.status(400).json({ message: 'Utilisateur déjà existant' });
   }
@@ -54,9 +54,14 @@ router.post('/login', async (req, res) => {
   res.json({ token });
 });
 
-// Déconnexion de l'utilisateur (ici, juste une suppression du token côté client)
+// Déconnexion de l'utilisateur
 router.get('/logout', (req, res) => {
   res.json({ message: 'Déconnexion réussie' });
+});
+
+// Exemple de route protégée
+router.get('/protected', protect, (req, res) => {
+  res.send('Accès autorisé avec un token valide');
 });
 
 module.exports = router;

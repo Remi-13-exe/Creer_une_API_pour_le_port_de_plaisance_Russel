@@ -1,0 +1,90 @@
+const express = require("express");
+const router = express.Router();
+const Reservation = require("../models/reservation");
+const Catway = require("../models/Catway");
+
+// 📌 GET : Liste toutes les réservations d'un catway
+router.get("/:id/reservations", async (req, res) => {
+  try {
+    const reservations = await Reservation.find({ catwayNumber: req.params.id });
+    res.json(reservations);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 📌 GET : Récupérer une réservation spécifique
+router.get("/:id/reservations/:reservationId", async (req, res) => {
+  try {
+    const reservation = await Reservation.findById(req.params.reservationId);
+    if (!reservation) return res.status(404).json({ error: "Réservation non trouvée" });
+    res.json(reservation);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 📌 POST : Ajouter une réservation à un catway
+router.post("/:id/reservations", async (req, res) => {
+  try {
+    const { clientName, boatName, startDate, endDate } = req.body;
+
+    // Vérifier si le catway existe
+    const catway = await Catway.findOne({ catwayNumber: req.params.id });
+    if (!catway) return res.status(404).json({ error: "Catway non trouvé" });
+
+    // Vérifier si le catway est déjà réservé à cette période
+    const existingReservations = await Reservation.find({
+      catwayNumber: req.params.id,
+      $or: [
+        { startDate: { $lte: endDate }, endDate: { $gte: startDate } },
+      ],
+    });
+
+    if (existingReservations.length > 0) {
+      return res.status(400).json({ error: "Catway déjà réservé pour cette période" });
+    }
+
+    const newReservation = new Reservation({
+      catwayNumber: req.params.id,
+      clientName,
+      boatName,
+      startDate,
+      endDate,
+    });
+
+    await newReservation.save();
+    res.status(201).json(newReservation);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// 📌 PUT : Modifier une réservation
+router.put("/:id/reservations/:reservationId", async (req, res) => {
+  try {
+    const { clientName, boatName, startDate, endDate } = req.body;
+    const updatedReservation = await Reservation.findByIdAndUpdate(
+      req.params.reservationId,
+      { clientName, boatName, startDate, endDate },
+      { new: true }
+    );
+    if (!updatedReservation) return res.status(404).json({ error: "Réservation non trouvée" });
+    res.json(updatedReservation);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 📌 DELETE : Supprimer une réservation
+router.delete("/:id/reservations/:reservationId", async (req, res) => {
+  try {
+    const deletedReservation = await Reservation.findByIdAndDelete(req.params.reservationId);
+    if (!deletedReservation) return res.status(404).json({ error: "Réservation non trouvée" });
+    res.json({ message: "Réservation supprimée" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+module.exports = router;
