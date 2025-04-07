@@ -1,0 +1,21 @@
+<!-- views/dashboard.ejs -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Tableau de Bord</title>
+</head>
+<body>
+  <h1>Bienvenue, <%= user.username %> !</h1>
+  <h2>Voici vos réservations en cours :</h2>
+  <ul>
+    <% reservations.forEach(reservation => { %>
+      <li>
+        <strong>Bateau :</strong> <%= reservation.boatName %> - 
+        <strong>Client :</strong> <%= reservation.clientName %> - 
+        <strong>Dates :</strong> <%= reservation.startDate %> à <%= reservation.endDate %>
+      </li>
+    <% }) %>
+  </ul>
+</body>
+</html>

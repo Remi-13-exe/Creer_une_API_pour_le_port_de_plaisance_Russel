@@ -4,6 +4,8 @@ const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth');
 const catwaysRoutes = require('./routes/catways'); // Import des routes catways
 const reservationRoutes = require("./routes/reservations");
+const usersRoutes = require('./routes/users');
+const dashboardRoutes = require("./routes/dashboard");  // Importer les routes du tableau de bord
 
 
 dotenv.config();
@@ -18,6 +20,17 @@ app.use('/auth', authRoutes);
 app.use('/catways', catwaysRoutes); // Ajout des nouvelles routes
 
 app.use("/catways", reservationRoutes);
+
+app.use('/users', usersRoutes);
+
+app.use(express.static('public'));
+
+
+
+
+
+app.set('view engine', 'ejs');
+app.set('views', './views'); // ou le dossier où tu mets tes fichiers .ejs
 
 
 const PORT = process.env.PORT || 5000;

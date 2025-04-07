@@ -12,16 +12,32 @@ router.get("/", async (req, res) => {
   }
 });
 
-// 📌 GET : Récupérer un catway par son ID
+// 📌 GET : Récupérer un catway par son catwayNumber
 router.get("/:id", async (req, res) => {
   try {
-    const catway = await Catway.findById(req.params.id);
-    if (!catway) return res.status(404).json({ error: "Catway non trouvé" });
-    res.json(catway);
+    // Convertir le paramètre d'ID en nombre
+    const catwayNumber = parseInt(req.params.id);
+
+    // Vérification que l'ID est bien un nombre
+    if (isNaN(catwayNumber)) {
+      return res.status(400).json({ error: "Le paramètre catwayNumber doit être un nombre valide." });
+    }
+
+    // Recherche par catwayNumber (pas par _id) et renvoi tous les résultats correspondants
+    const catways = await Catway.find({ catwayNumber: catwayNumber });
+
+    if (!catways || catways.length === 0) {
+      return res.status(404).json({ error: "Catway non trouvé" });
+    }
+
+    res.json(catways);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
+
+
 
 // 📌 POST : Ajouter un catway
 router.post("/", async (req, res) => {
@@ -35,12 +51,13 @@ router.post("/", async (req, res) => {
   }
 });
 
-// 📌 PUT : Modifier l'état d'un catway
+// 📌 PUT : Modifier l'état d'un catway par son catwayNumber
 router.put("/:id", async (req, res) => {
   try {
     const { catwayState } = req.body;
-    const updatedCatway = await Catway.findByIdAndUpdate(
-      req.params.id,
+    // Utilisation de findOneAndUpdate pour trouver par catwayNumber
+    const updatedCatway = await Catway.findOneAndUpdate(
+      { catwayNumber: req.params.id },
       { catwayState },
       { new: true }
     );
@@ -51,10 +68,11 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// 📌 DELETE : Supprimer un catway
+// 📌 DELETE : Supprimer un catway par son catwayNumber
 router.delete("/:id", async (req, res) => {
   try {
-    const deletedCatway = await Catway.findByIdAndDelete(req.params.id);
+    // Utilisation de findOneAndDelete pour supprimer par catwayNumber
+    const deletedCatway = await Catway.findOneAndDelete({ catwayNumber: req.params.id });
     if (!deletedCatway) return res.status(404).json({ error: "Catway non trouvé" });
     res.json({ message: "Catway supprimé" });
   } catch (err) {
