@@ -72,3 +72,5 @@ router.get('/login', (req, res) => {
 });
 
 module.exports = router;
+
+console.log('Tentative d’accès à la route protégée');

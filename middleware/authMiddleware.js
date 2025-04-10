@@ -1,12 +1,11 @@
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-
-dotenv.config();
 
 // Middleware pour vérifier l'authentification via JWT
 const protect = (req, res, next) => {
+  // Récupérer le token de l'en-tête Authorization
   const token = req.header('Authorization')?.replace('Bearer ', '');
 
+  // Si aucun token n'est présent, renvoyer une erreur
   if (!token) {
     return res.status(401).json({ message: 'Non autorisé, token manquant' });
   }
@@ -14,19 +13,20 @@ const protect = (req, res, next) => {
   try {
     // Vérification du token JWT
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // Attacher l'utilisateur décodé à la requête
-    next(); // Passer à la prochaine étape (route)
+
+    // Ajouter l'utilisateur décodé à la requête pour l'utiliser dans les routes suivantes
+    req.user = decoded;
+
+    // Log pour vérifier que l'utilisateur est bien décodé et attaché
+    console.log("Utilisateur décodé : ", decoded);
+
+    // Passer à la prochaine étape (la route)
+    next();
   } catch (err) {
-    res.status(401).json({ message: 'Non autorisé, token invalide' });
+    // Si le token est invalide ou expiré, renvoyer une erreur
+    console.error("Erreur de vérification du token : ", err);
+    return res.status(401).json({ message: 'Non autorisé, token invalide' });
   }
 };
 
-// Middleware pour vérifier si l'utilisateur est authentifié
-const isAuthenticated = (req, res, next) => {
-  if (req.user) {  // Si l'utilisateur est authentifié
-    return next();  // Autorise l'accès à la suite
-  }
-  res.redirect('/auth/login');  // Sinon, redirige vers la page de connexion
-};
-
-module.exports = { protect, isAuthenticated };
+module.exports = protect;
