@@ -1,97 +1,29 @@
-const express = require("express");
-const router = express.Router();
-const Catway = require("../models/Catway");
+const express = require('express');
+const mongoose = require('mongoose');
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// 📌 GET : Récupérer tous les catways
-router.get("/", async (req, res) => {
+mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true });
+
+const CatwaySchema = new mongoose.Schema({ number: String, catwayState: String });
+const Catway = mongoose.model('Catway', CatwaySchema);
+const catways = await Catway.find();
+console.log(catways);
+
+
+
+
+
+app.delete('/catways/:id', async (req, res) => {
+  console.log('Requête reçue pour suppression:', req.params.id);
   try {
-    const catways = await Catway.find();
-    res.json(catways);  // Envoie tous les catways récupérés
+    const deletedCatway = await Catway.findByIdAndDelete(req.params.id);
+    res.json(deletedCatway);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error(err);
+    res.status(500).send('Erreur serveur');
   }
 });
 
-// 📌 GET : Récupérer un catway par son catwayNumber
-router.get("/:id", async (req, res) => {
-  try {
-    const catwayNumber = parseInt(req.params.id);
-
-    if (isNaN(catwayNumber)) {
-      return res.status(400).json({ error: "Le paramètre catwayNumber doit être un nombre valide." });
-    }
-
-    const catways = await Catway.find({ catwayNumber: catwayNumber });
-
-    if (!catways || catways.length === 0) {
-      return res.status(404).json({ error: "Catway non trouvé" });
-    }
-
-    res.json({
-      message: "Catway trouvé",
-      data: catways
-    });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// 📌 POST : Ajouter un catway
-router.post("/", async (req, res) => {
-  try {
-    const { catwayNumber, catwayType, catwayState } = req.body;
-
-    // Vérifier si catwayNumber existe déjà
-    const existingCatway = await Catway.findOne({ catwayNumber });
-    if (existingCatway) {
-      return res.status(400).json({ error: "Le numéro de catway existe déjà." });
-    }
-
-    const newCatway = new Catway({ catwayNumber, catwayType, catwayState });
-    await newCatway.save();
-    res.status(201).json({
-      message: "Catway créé avec succès",
-      catway: newCatway
-    });
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
-
-// 📌 PUT : Modifier l'état d'un catway par son catwayNumber
-router.put("/:id", async (req, res) => {
-  try {
-    const { catwayState } = req.body;
-
-    const updatedCatway = await Catway.findOneAndUpdate(
-      { catwayNumber: req.params.id },
-      { catwayState },
-      { new: true }
-    );
-    if (!updatedCatway) return res.status(404).json({ error: "Catway non trouvé" });
-
-    res.json({
-      message: "Catway mis à jour",
-      catway: updatedCatway
-    });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// 📌 DELETE : Supprimer un catway par son catwayNumber
-router.delete("/:id", async (req, res) => {
-  try {
-    const deletedCatway = await Catway.findOneAndDelete({ catwayNumber: req.params.id });
-    if (!deletedCatway) return res.status(404).json({ error: "Catway non trouvé" });
-
-    res.json({
-      message: "Catway supprimé",
-      deletedCatway
-    });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-module.exports = router;
+app.listen(5000, () => console.log('Serveur en écoute sur le port 5000'));

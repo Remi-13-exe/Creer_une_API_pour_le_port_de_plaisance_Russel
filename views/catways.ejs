@@ -1,28 +1,74 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Catways</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Catways</title>
 </head>
 <body>
-  <h1>Liste des Catways</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Numéro du Catway</th>
-        <th>État</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% catways.forEach((catway, index) => { %>
-        <tr>
-          <td><%= index + 1 %></td>
-          <td><%= catway.number %></td>
-          <td><%= catway.state %></td>
-        </tr>
-      <% }); %>
-    </tbody>
+    <h1>Gestion des Catways</h1>
+    
+    <table border="1">
+      <thead>
+          <tr>
+              <th>Numéro</th>
+              <th>Type</th>
+              <th>État</th>
+              <th>Actions</th>
+          </tr>
+      </thead>
+      <tbody>
+          <% if (catways.length > 0) { %>
+              <% catways.forEach(catway => { %>
+                  <tr>
+                      <td><%= catway.catwayNumber %></td> <!-- Ce champ doit correspondre au modèle -->
+                      <td><%= catway.catwayType %></td>
+                      <td><%= catway.catwayState %></td>
+                      <td>
+                          <form method="POST" action="/catways/<%= catway._id %>?_method=PUT" style="display:inline;">
+                              <button>Modifier</button>
+                          </form>
+                          <form method="POST" action="/catways/<%= catway._id %>?_method=DELETE" style="display:inline;">
+                              <button>Supprimer</button>
+                          </form>
+                      </td>
+                  </tr>
+              <% }); %>
+          <% } else { %>
+              <tr>
+                  <td colspan="4">Aucun catway trouvé.</td>
+              </tr>
+          <% } %>
+      </tbody>
   </table>
+  
+  
+
+    <h2>Ajouter un nouveau Catway</h2>
+    <!-- Formulaire d'ajout -->
+    <form method="POST" action="/catways">
+      <label>
+        Numéro :
+        <input type="text" name="catwayNumber" required>
+      </label>
+      <br>
+      <label>
+        Type :
+        <select name="catwayType" required>
+          <option value="" disabled selected>Choisissez un type</option>
+          <option value="long">Long</option>
+          <option value="short">Short</option>
+        </select>
+      </label>
+      <br>
+      <label>
+        État :
+        <input type="text" name="catwayState" required>
+      </label>
+      <br>
+      <button type="submit">Ajouter</button>
+    </form>
+    
 </body>
 </html>
+
