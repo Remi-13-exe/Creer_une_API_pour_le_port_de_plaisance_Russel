@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Réservations</title>
+    <link rel="stylesheet" href="">
+</head>
+<body>
+    <h1>Gestion des Réservations</h1>
+    
+    <h2>Ajouter une Réservation</h2>
+    <form method="POST" action="/reservations">
+        <label>
+            Numéro du Catway :
+            <input type="number" name="catwayNumber" required>
+        </label>
+        <br>
+        <label>
+            Nom du Client :
+            <input type="text" name="clientName" required>
+        </label>
+        <br>
+        <label>
+            Nom du Bateau :
+            <input type="text" name="boatName" required>
+        </label>
+        <br>
+        <label>
+            Date de Début :
+            <input type="date" name="startDate" required>
+        </label>
+        <br>
+        <label>
+            Date de Fin :
+            <input type="date" name="endDate" required>
+        </label>
+        <br>
+        <button type="submit">Ajouter la Réservation</button>
+    </form>
+
+    <h2>Liste des Réservations</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Numéro du Catway</th>
+                <th>Nom du Client</th>
+                <th>Nom du Bateau</th>
+                <th>Date de Début</th>
+                <th>Date de Fin</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (reservations.length > 0) { %>
+                <% reservations.forEach(reservation => { %>
+                    <tr>
+                        <td><%= reservation.catwayNumber %></td>
+                        <td><%= reservation.clientName %></td>
+                        <td><%= reservation.boatName %></td>
+                        <td><%= reservation.startDate.toLocaleDateString() %></td>
+                        <td><%= reservation.endDate.toLocaleDateString() %></td>
+                        <td>
+                            <form method="POST" action="/reservations/<%= reservation._id %>?_method=DELETE" style="display:inline;">
+                                <button>Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            <% } else { %>
+                <tr>
+                    <td colspan="6">Aucune réservation trouvée.</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</body>
+</html>
+

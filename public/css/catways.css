@@ -1,0 +1,130 @@
+/* catways.css */
+
+/* Style global */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* En-tête de page */
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    padding: 20px 0;
+    background-color: #3498db;
+    color: white;
+    margin: 0;
+}
+
+/* Table de catways */
+table {
+    width: 80%;
+    margin: 30px auto;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    table-layout: fixed; /* Cette règle permet de mieux contrôler la largeur des colonnes */
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #3498db;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Formulaire d'ajout de catway */
+form {
+    width: 50%;
+    margin: 30px auto;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #333;
+}
+
+form input, form select, form button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+form button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #2980b9;
+}
+
+/* Boutons de suppression */
+form button {
+    background-color: #e74c3c;
+    padding: 6px 50px;  /* Moins rétréci, mais plus compact que précédemment */
+    font-size: 14px;    /* Taille du texte plus raisonnable */
+    margin: 0 5px;      /* Espacement raisonnable entre les boutons */
+    width: auto;        /* Laisse les boutons se redimensionner automatiquement */
+    text-align: center; /* Centrer le texte à l'intérieur du bouton */
+}
+
+form button:hover {
+    background-color: #c0392b;
+}
+
+/* Pour éviter que le bouton dépasse du tableau */
+table td form {
+    display: inline-block;
+    margin: 0;
+    white-space: nowrap; /* Empêche le contenu de se déplacer sur plusieurs lignes */
+}
+
+table td:last-child {
+    width: 80px; /* Colonne contenant les boutons un peu plus large, pour une taille modérée */
+    text-align: center; /* Centrer le bouton dans la cellule */
+}
+
+/* Pour la table, faire en sorte que les colonnes ne débordent pas */
+table td, table th {
+    overflow: hidden; /* Masque les débordements de texte */
+    text-overflow: ellipsis; /* Ajoute des points de suspension si le texte dépasse */
+}
+
+/* Limiter la largeur de la table pour éviter le débordement */
+@media (max-width: 768px) {
+    table {
+        width: 100%;
+        overflow-x: auto; /* Permet de faire défiler la table horizontalement sur les petits écrans */
+    }
+
+    table td, table th {
+        padding: 8px; /* Réduit l'espace dans la table */
+        font-size: 12px; /* Réduit la taille de la police */
+    }
+
+    form button {
+        width: auto; /* Laisse les boutons se réajuster */
+        max-width: 80px; /* Définit une largeur maximale pour les petits écrans */
+    }
+}

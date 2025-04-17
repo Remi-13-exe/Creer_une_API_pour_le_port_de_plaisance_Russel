@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/catways.css">
+
     <title>Gestion des Catways</title>
 </head>
 <body>
@@ -25,9 +27,6 @@
                       <td><%= catway.catwayType %></td>
                       <td><%= catway.catwayState %></td>
                       <td>
-                          <form method="POST" action="/catways/<%= catway._id %>?_method=PUT" style="display:inline;">
-                              <button>Modifier</button>
-                          </form>
                           <form method="POST" action="/catways/<%= catway._id %>?_method=DELETE" style="display:inline;">
                               <button>Supprimer</button>
                           </form>

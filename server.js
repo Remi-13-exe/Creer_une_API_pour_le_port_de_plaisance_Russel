@@ -4,6 +4,21 @@ const dotenv = require('dotenv');
 const path = require('path');
 const methodOverride = require('method-override');
 const app = express();
+const Reservation = require('./models/reservation');  // Assure-toi que le modèle est correct
+
+
+app.use('/css', (req, res, next) => {
+  console.log(`Requête CSS pour : ${req.url}`);
+  next();
+});
+
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+
+
+
 
 // Configuration de dotenv pour utiliser les variables d'environnement
 dotenv.config();
@@ -37,6 +52,7 @@ const CatwaySchema = new mongoose.Schema({
 const Catway = mongoose.model('Catway', CatwaySchema);
 
 // Middleware
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method')); // Pour gérer PUT et DELETE via des formulaires HTML
@@ -124,4 +140,38 @@ app.get('/catways', async (req, res) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Serveur lancé sur le port ${PORT}`);
+});
+
+
+
+// Route GET pour afficher toutes les réservations
+app.get('/reservations', async (req, res) => {
+  try {
+    const reservations = await Reservation.find();
+    res.render('reservations', { reservations });
+  } catch (err) {
+    console.error('Erreur lors de la récupération des réservations:', err);
+    res.status(500).send('Erreur lors de la récupération des réservations');
+  }
+});
+
+// Route POST pour ajouter une nouvelle réservation
+app.post('/reservations', async (req, res) => {
+  try {
+    const { catwayNumber, clientName, boatName, startDate, endDate } = req.body;
+
+    const newReservation = new Reservation({
+      catwayNumber,
+      clientName,
+      boatName,
+      startDate,
+      endDate
+    });
+
+    await newReservation.save();
+    res.redirect('/reservations');
+  } catch (err) {
+    console.error(err);
+    res.status(400).send(`Erreur lors de la création de la réservation: ${err.message}`);
+  }
 });
