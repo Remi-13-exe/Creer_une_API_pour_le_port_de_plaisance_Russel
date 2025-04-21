@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Reservation = require('../models/Reservation'); // Assurez-vous que le modèle Reservation est bien importé
+const Reservation = require('../models/reservation'); // Assurez-vous que le modèle Reservation est bien importé
 
 // Route pour afficher le tableau de bord
 router.get('/dashboard', async (req, res) => {
