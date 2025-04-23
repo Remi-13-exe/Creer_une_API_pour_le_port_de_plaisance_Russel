@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const path = require('path');
 const methodOverride = require('method-override');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 // Initialisation de l'application
 const app = express();
-
-// Configuration de dotenv pour utiliser les variables d'environnement
-dotenv.config();
+dotenv.config(); // Charger les variables d'environnement
 
 // Connexion à MongoDB
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/test', {
@@ -21,30 +21,35 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/test', {
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride('_method')); // Pour gérer PUT et DELETE via des formulaires HTML
-app.use(express.static(path.join(__dirname, 'public'))); // Fichiers statiques
+app.use(methodOverride('_method')); // Permet l'utilisation des méthodes PUT et DELETE via des formulaires
+app.use(express.static(path.join(__dirname, 'public'))); // Servir les fichiers statiques
 
 // Configuration du moteur de vues
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Modèles
+// Middleware pour gérer les sessions et les messages flash
+app.use(session({
+  secret: 'secret-key',  // Remplace avec une clé secrète
+  resave: false,
+  saveUninitialized: true,
+}));
+
+// Middleware pour utiliser connect-flash
+app.use(flash());
+
+// Middleware pour rendre les messages flash accessibles dans toutes les vues
+app.use((req, res, next) => {
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
+});
+
+// Modèles Mongoose
 const CatwaySchema = new mongoose.Schema({
-  catwayNumber: {
-    type: String,
-    unique: true,
-    required: [true, 'Le numéro du catway est obligatoire.']
-  },
-  catwayType: {
-    type: String,
-    required: [true, 'Le type du catway est obligatoire.'],
-    enum: ['long', 'short'], // Limite les valeurs possibles
-  },
-  catwayState: {
-    type: String,
-    required: [true, 'L’état du catway est obligatoire.'],
-    maxlength: [200, 'La description de l’état ne peut pas dépasser 200 caractères.'],
-  },
+  catwayNumber: { type: String, unique: true, required: [true, 'Le numéro du catway est obligatoire.'] },
+  catwayType: { type: String, required: [true, 'Le type du catway est obligatoire.'], enum: ['long', 'short'] },
+  catwayState: { type: String, required: [true, 'L’état du catway est obligatoire.'], maxlength: [200, 'La description de l’état ne peut pas dépasser 200 caractères.'] },
 });
 
 const ReservationSchema = new mongoose.Schema({
@@ -56,21 +61,9 @@ const ReservationSchema = new mongoose.Schema({
 });
 
 const UserSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-    minlength: 6,
-  },
+  username: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true, minlength: 6 },
 });
 
 const Catway = mongoose.model('Catway', CatwaySchema);
@@ -78,86 +71,131 @@ const Reservation = mongoose.model('Reservation', ReservationSchema);
 const User = mongoose.model('User', UserSchema);
 
 // Routes Catways
-app.get('/catways', async (req, res) => {
-  try {
-    const catways = await Catway.find();
-    res.render('catways', { catways });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Erreur lors de la récupération des catways');
-  }
+app.route('/catways')
+  .get(async (req, res) => {
+    try {
+      const catways = await Catway.find();
+      res.render('catways', { catways });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Erreur lors de la récupération des catways');
+    }
+  })
+  .post(async (req, res) => {
+    try {
+      const { catwayNumber, catwayType, catwayState } = req.body;
+      const newCatway = new Catway({ catwayNumber, catwayType, catwayState });
+      await newCatway.save();
+      req.flash('success', 'Catway créé avec succès');
+      res.redirect('/catways');
+    } catch (err) {
+      console.error(err);
+      req.flash('error', `Erreur lors de la création du catway: ${err.message}`);
+      res.redirect('/catways');
+    }
+  });
+
+app.route('/catways/:id')
+  .put(async (req, res) => {
+    try {
+      const { catwayNumber, catwayType, catwayState } = req.body;
+      const updatedCatway = await Catway.findByIdAndUpdate(req.params.id, { catwayNumber, catwayType, catwayState }, { new: true, runValidators: true });
+      if (!updatedCatway) return res.status(404).send('Catway non trouvé');
+      req.flash('success', 'Catway mis à jour avec succès');
+      res.redirect('/catways');
+    } catch (err) {
+      console.error(err);
+      req.flash('error', `Erreur lors de la mise à jour du catway: ${err.message}`);
+      res.redirect('/catways');
+    }
+  })
+  .delete(async (req, res) => {
+    try {
+      const deletedCatway = await Catway.findByIdAndDelete(req.params.id);
+      if (!deletedCatway) return res.status(404).send('Catway non trouvé');
+      req.flash('success', 'Catway supprimé avec succès');
+      res.redirect('/catways');
+    } catch (err) {
+      console.error(err);
+      req.flash('error', 'Erreur lors de la suppression du catway');
+      res.redirect('/catways');
+    }
+  });
+
+// Route d'index (Page d'accueil)
+app.get('/', (req, res) => {
+  // Exemple pour passer une erreur (tu peux adapter selon tes besoins)
+  const error = req.flash('error'); // Par exemple, si tu utilises `flash` pour les messages d'erreur
+  res.render('index', { error: error || null });
 });
 
-app.post('/catways', async (req, res) => {
-  try {
-    const { catwayNumber, catwayType, catwayState } = req.body;
-    const newCatway = new Catway({ catwayNumber, catwayType, catwayState });
-    await newCatway.save();
-    res.redirect('/catways');
-  } catch (err) {
-    console.error(err);
-    res.status(400).send(`Erreur lors de la création du catway: ${err.message}`);
-  }
+// Afficher la page de connexion
+app.get('/login', (req, res) => {
+  res.render('login'); // Assure-toi d'avoir un fichier 'login.ejs' dans le dossier 'views'
 });
 
-app.put('/catways/:id', async (req, res) => {
-  try {
-    const { catwayNumber, catwayType, catwayState } = req.body;
-    const updatedCatway = await Catway.findByIdAndUpdate(
-      req.params.id,
-      { catwayNumber, catwayType, catwayState },
-      { new: true, runValidators: true },
-    );
-    if (!updatedCatway) return res.status(404).send('Catway non trouvé');
-    res.redirect('/catways');
-  } catch (err) {
-    console.error(err);
-    res.status(500).send(`Erreur lors de la mise à jour du catway: ${err.message}`);
-  }
-});
-
-app.delete('/catways/:id', async (req, res) => {
-  try {
-    const deletedCatway = await Catway.findByIdAndDelete(req.params.id);
-    if (!deletedCatway) return res.status(404).send('Catway non trouvé');
-    res.redirect('/catways');
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Erreur lors de la suppression du catway');
-  }
-});
 
 // Routes Reservations
-app.get('/reservations', async (req, res) => {
-  try {
-    const reservations = await Reservation.find();
-    res.render('reservations', { reservations });
-  } catch (err) {
-    console.error('Erreur lors de la récupération des réservations:', err);
-    res.status(500).send('Erreur lors de la récupération des réservations');
-  }
-});
-
-app.post('/reservations', async (req, res) => {
-  try {
-    const { catwayNumber, clientName, boatName, startDate, endDate } = req.body;
-    const newReservation = new Reservation({ catwayNumber, clientName, boatName, startDate, endDate });
-    await newReservation.save();
-    res.redirect('/reservations');
-  } catch (err) {
-    console.error(err);
-    res.status(400).send(`Erreur lors de la création de la réservation: ${err.message}`);
-  }
-});
+app.route('/reservations')
+  .get(async (req, res) => {
+    try {
+      const reservations = await Reservation.find();
+      res.render('reservations', { reservations });
+    } catch (err) {
+      console.error('Erreur lors de la récupération des réservations:', err);
+      res.status(500).send('Erreur lors de la récupération des réservations');
+    }
+  })
+  .post(async (req, res) => {
+    try {
+      const { catwayNumber, clientName, boatName, startDate, endDate } = req.body;
+      const newReservation = new Reservation({ catwayNumber, clientName, boatName, startDate, endDate });
+      await newReservation.save();
+      req.flash('success', 'Réservation effectuée avec succès');
+      res.redirect('/reservations');
+    } catch (err) {
+      console.error(err);
+      req.flash('error', `Erreur lors de la création de la réservation: ${err.message}`);
+      res.redirect('/reservations');
+    }
+  });
 
 // Routes Users
-app.get('/users', async (req, res) => {
+app.route('/users')
+  .get(async (req, res) => {
+    try {
+      const users = await User.find();
+      res.render('users', { users });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Erreur lors de la récupération des utilisateurs');
+    }
+  })
+  .post(async (req, res) => {
+    try {
+      const { username, email, password } = req.body;
+      if (!username || !email || !password) return res.status(400).send('Tous les champs sont obligatoires.');
+      const newUser = new User({ username, email, password });
+      await newUser.save();
+      req.flash('success', 'Utilisateur créé avec succès');
+      res.redirect('/users');
+    } catch (err) {
+      console.error('Erreur lors de la création de l’utilisateur:', err);
+      req.flash('error', `Erreur: ${err.message}`);
+      res.redirect('/users');
+    }
+  });
+
+app.delete('/users/:id', async (req, res) => {
   try {
-    const users = await User.find();
-    res.render('users', { users });
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
+    if (!deletedUser) return res.status(404).send('Utilisateur non trouvé');
+    req.flash('success', 'Utilisateur supprimé avec succès');
+    res.redirect('/users');
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Erreur lors de la récupération des utilisateurs');
+    console.error('Erreur lors de la suppression de l’utilisateur:', err);
+    req.flash('error', `Erreur: ${err.message}`);
+    res.redirect('/users');
   }
 });
 
