@@ -5,6 +5,9 @@ const path = require('path');
 const methodOverride = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash');
+const authRoutes = require('./routes/auth');
+
+
 
 // Initialisation de l'application
 const app = express();
@@ -23,6 +26,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method')); // Permet l'utilisation des méthodes PUT et DELETE via des formulaires
 app.use(express.static(path.join(__dirname, 'public'))); // Servir les fichiers statiques
+app.use('/auth', authRoutes);
 
 // Configuration du moteur de vues
 app.set('view engine', 'ejs');
@@ -68,7 +72,7 @@ const UserSchema = new mongoose.Schema({
 
 const Catway = mongoose.model('Catway', CatwaySchema);
 const Reservation = mongoose.model('Reservation', ReservationSchema);
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.models.User || mongoose.model('User', UserSchema);
 
 // Routes Catways
 app.route('/catways')
@@ -198,6 +202,9 @@ app.delete('/users/:id', async (req, res) => {
     res.redirect('/users');
   }
 });
+
+
+
 
 // Serveur
 const PORT = process.env.PORT || 5000;

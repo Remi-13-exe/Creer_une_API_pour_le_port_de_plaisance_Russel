@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const protect = (req, res, next) => {
   // Récupérer le token de l'en-tête Authorization
   const token = req.header('Authorization')?.replace('Bearer ', '');
-
+require('./path/to/User')
   // Si aucun token n'est présent, renvoyer une erreur
   if (!token) {
     return res.status(401).json({ message: 'Non autorisé, token manquant' });
