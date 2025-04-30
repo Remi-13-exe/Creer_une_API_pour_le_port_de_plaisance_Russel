@@ -9,6 +9,7 @@ const User = require('../models/User'); // Importation du modèle User
 dotenv.config();
 
 // Inscription d'un utilisateur
+// Inscription d'un utilisateur
 router.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -28,13 +29,17 @@ router.post('/register', async (req, res) => {
     });
 
     await user.save();
-    res.status(201).json({ message: 'Utilisateur créé avec succès' });
+
+    // Une fois l'utilisateur créé, tu peux rediriger vers la page de réservation ou tableau de bord
+    // Assure-toi d'envoyer un message de succès si tu veux l'afficher dans le frontend.
+    res.redirect('/reservation');  // Ici, tu peux remplacer '/reservation' par la route que tu veux
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
 
+// Connexion de l'utilisateur
 // Connexion de l'utilisateur
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
@@ -55,12 +60,19 @@ router.post('/login', async (req, res) => {
     // Création du token JWT
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    res.json({ token });
+    // Redirection vers la page de réservation après connexion
+    res.redirect('/reservation');  // Redirige vers la page réservation
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
+
+router.get('/register', (req, res) => {
+  res.render('register', { error: null });
+});
+
 
 // Déconnexion de l'utilisateur
 router.get('/logout', (req, res) => {
@@ -75,6 +87,11 @@ router.get('/protected', protect, (req, res) => {
 // Route de la page de connexion
 router.get('/login', (req, res) => {
   res.render('index', { error: null });
+  
 });
+
+
+
+
 
 module.exports = router;

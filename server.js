@@ -49,6 +49,11 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  console.log(typeof req.flash); // Devrait afficher "function"
+  next();
+});
+
 // Modèles Mongoose
 const CatwaySchema = new mongoose.Schema({
   catwayNumber: { type: String, unique: true, required: [true, 'Le numéro du catway est obligatoire.'] },

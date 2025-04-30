@@ -1,0 +1,63 @@
+<!-- register.ejs -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Inscription</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Inscription</h1>
+    <form id="registerForm" action="/auth/register" method="POST">
+      <div>
+        <label for="username">Nom d'utilisateur :</label>
+        <input type="text" name="username" id="username" required />
+      </div>
+      <div>
+        <label for="email">Email :</label>
+        <input type="email" name="email" id="email" required />
+      </div>
+      <div>
+        <label for="password">Mot de passe :</label>
+        <input type="password" name="password" id="password" required />
+      </div>
+      <button type="submit">S'inscrire</button>
+    </form>
+  </div>
+
+  <p style="margin-top: 20px;">
+    Deja inscrit ? <a href="/auth/login">Se connecter ici</a>
+  </p>
+  <script>
+    // Le script JavaScript ici même
+    document.querySelector('#registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault(); // Empêche le rechargement de la page
+
+      const username = document.querySelector('#username').value;
+      const email = document.querySelector('#email').value;
+      const password = document.querySelector('#password').value;
+
+      try {
+        const response = await fetch('http://localhost:5000/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, email, password }),
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || 'Une erreur est survenue');
+        }
+
+        alert('Inscription réussie !');
+      } catch (err) {
+        console.error('Erreur lors de l’inscription :', err);
+        alert(err.message);
+      }
+    });
+  </script>
+</body>
+</html>

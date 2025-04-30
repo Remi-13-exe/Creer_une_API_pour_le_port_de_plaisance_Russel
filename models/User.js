@@ -1,23 +1,13 @@
 const mongoose = require('mongoose');
 
-// Définition du schéma
 const UserSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'Le nom est obligatoire.']
-  },
-  email: {
-    type: String,
-    required: [true, 'L’email est obligatoire.'],
-    unique: true,
-    match: [/.+@.+\..+/, 'Veuillez fournir un email valide.']
-  },
-  password: {
-    type: String,
-    required: [true, 'Le mot de passe est obligatoire.'],
-    minlength: [6, 'Le mot de passe doit comporter au moins 6 caractères.']
-  }
+  username: { type: String, required: [true, 'Le nom est obligatoire.'], unique: true },
+  email: { type: String, required: [true, 'L’email est obligatoire.'], unique: true },
+  password: { type: String, required: [true, 'Le mot de passe est obligatoire.'], minlength: 6 },
 });
+
+module.exports = mongoose.model('User', UserSchema);
+
 
 // Hook Mongoose pour loguer avant de sauvegarder un utilisateur
 UserSchema.pre('save', function (next) {
@@ -26,7 +16,7 @@ UserSchema.pre('save', function (next) {
 });
 
 // Vérifier si le modèle existe déjà avant de le créer pour éviter l'erreur "OverwriteModelError"
-const User = mongoose.models.User || mongoose.model('User', UserSchema);
+const User = mongoose.models.User || mongoose.model('user', UserSchema);
 
 // Exportation du modèle
 module.exports = User;
