@@ -128,3 +128,91 @@ table td, table th {
         max-width: 80px; /* Définit une largeur maximale pour les petits écrans */
     }
 }
+
+/* Liens stylisés comme des boutons */
+a.button {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    background-color: #3498db;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin: 5px;
+}
+
+a.button:hover {
+    background-color: #2980b9;
+}
+
+a.button.delete {
+    background-color: #e74c3c;
+}
+
+a.button.delete:hover {
+    background-color: #c0392b;
+}
+
+
+
+/* Bouton vert pour "Détails" */
+a.button.details {
+    background-color: #27ae60; /* Vert */
+    color: white;
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin: 5px;
+}
+
+a.button.details:hover {
+    background-color: #1e8449; /* Vert plus foncé au survol */
+}
+
+
+/* Bouton rouge pour "Annuler" */
+a.button.cancel {
+    background-color: #e74c3c; /* Rouge */
+    color: white;
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin: 5px;
+}
+
+a.button.cancel:hover {
+    background-color: #c0392b; /* Rouge plus foncé au survol */
+}
+
+
+/* Bouton rouge pour les liens */
+a.button.red {
+    background-color: #e74c3c; /* Rouge */
+    color: white;
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin: 5px;
+}
+
+a.button.red:hover {
+    background-color: #c0392b; /* Rouge plus foncé au survol */
+}

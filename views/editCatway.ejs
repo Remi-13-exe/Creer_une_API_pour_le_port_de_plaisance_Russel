@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Modifier l'État du Catway</title>
+</head>
+<body>
+    <h1>Modifier l'État du Catway</h1>
+
+    <form method="POST" action="/catways/<%= catway._id %>?_method=PUT">
+        <p><strong>Numéro :</strong> <%= catway.catwayNumber %></p>
+        <p><strong>Type :</strong> <%= catway.catwayType %></p>
+        
+        <label for="catwayState">État :</label>
+        <textarea name="catwayState" id="catwayState" rows="4" required><%= catway.catwayState %></textarea>
+        <br>
+        <button type="submit">Mettre à jour</button>
+    </form>
+
+    <a href="/catways" class="button cancel">Annuler</a>
+</body>
+</html>

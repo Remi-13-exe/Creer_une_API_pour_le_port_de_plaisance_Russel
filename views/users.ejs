@@ -55,7 +55,15 @@
                             <form method="GET" action="/users/<%= user._id %>/edit" style="display:inline;">
                                 <button>Modifier</button>
                             </form>
+
+                              <!-- Détails d'un utilisateur -->
+    <a href="/users/<%= user._id %>" class="button">Détails</a>
                         </td>
+                        
+
+
+
+
                     </tr>
                 <% }); %>
             <% } else { %>

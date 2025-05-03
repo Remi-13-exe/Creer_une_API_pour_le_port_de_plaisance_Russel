@@ -144,6 +144,78 @@ app.get('/login', (req, res) => {
 });
 
 
+app.get('/catways/:id', async (req, res) => {
+  try {
+      const catway = await Catway.findById(req.params.id);
+      if (!catway) return res.status(404).send('Catway introuvable');
+      res.render('catwayDetails', { catway }); // Assurez-vous de créer une vue "catwayDetails.ejs"
+  } catch (err) {
+      res.status(500).send('Erreur serveur');
+  }
+});
+
+app.get('/catways/:id/edit', async (req, res) => {
+  try {
+      const catway = await Catway.findById(req.params.id);
+      if (!catway) return res.status(404).send('Catway introuvable');
+      res.render('editCatway', { catway }); // Assurez-vous de créer une vue "editCatway.ejs"
+  } catch (err) {
+      res.status(500).send('Erreur serveur');
+  }
+});
+
+app.put('/catways/:id', async (req, res) => {
+  try {
+      const { catwayState } = req.body;
+      const updatedCatway = await Catway.findByIdAndUpdate(
+          req.params.id,
+          { catwayState },
+          { new: true, runValidators: true }
+      );
+      if (!updatedCatway) return res.status(404).send('Catway introuvable');
+      res.redirect('/catways');
+  } catch (err) {
+      res.status(500).send('Erreur serveur');
+  }
+});
+
+app.put('/users/:id', async (req, res) => {
+  const { username, email } = req.body;
+  try {
+      const user = await User.findByIdAndUpdate(req.params.id, { username, email }, { new: true });
+      if (!user) {
+          return res.status(404).send('Utilisateur non trouvé');
+      }
+      res.redirect('/users'); // Redirige vers la liste des utilisateurs après la mise à jour
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Erreur du serveur');
+  }
+});
+
+
+
+app.get('/users/:id', async (req, res) => {
+  try {
+      const user = await User.findById(req.params.id);
+      if (!user) {
+          return res.status(404).send('Utilisateur non trouvé');
+      }
+      res.render('user-details', { user }); // Assurez-vous d'avoir la vue correspondante
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Erreur du serveur');
+  }
+});
+
+
+app.get('/users/:id/edit', async (req, res) => {
+  const user = await User.findById(req.params.id); // Remplace par ton modèle et logique
+  res.render('edit-user', { user });
+});
+
+
+
 // Routes Reservations
 app.route('/reservations')
   .get(async (req, res) => {

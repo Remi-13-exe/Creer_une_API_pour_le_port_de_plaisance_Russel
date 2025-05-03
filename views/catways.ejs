@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/styles.css">
-
     <title>Gestion des Catways</title>
 </head>
 <body>
@@ -27,6 +26,13 @@
                       <td><%= catway.catwayType %></td>
                       <td><%= catway.catwayState %></td>
                       <td>
+                          <!-- Lien pour afficher les détails -->
+                          <a href="/catways/<%= catway._id %>" class="button details">Détails</a>
+                          
+                          <!-- Lien ou formulaire pour modifier l'état -->
+                          <a href="/catways/<%= catway._id %>/edit" class="button">Modifier l'état</a>
+
+                          <!-- Formulaire de suppression -->
                           <form method="POST" action="/catways/<%= catway._id %>?_method=DELETE" style="display:inline;">
                               <button>Supprimer</button>
                           </form>
@@ -40,8 +46,6 @@
           <% } %>
       </tbody>
   </table>
-  
-  
 
     <h2>Ajouter un nouveau Catway</h2>
     <!-- Formulaire d'ajout -->
@@ -67,7 +71,5 @@
       <br>
       <button type="submit">Ajouter</button>
     </form>
-    
 </body>
 </html>
-

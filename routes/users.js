@@ -16,6 +16,12 @@ router.get('/', async (req, res) => {
   }
 });
 
+app.get('/users/:id/edit', async (req, res) => {
+  const user = await User.findById(req.params.id); // Remplace par ton modèle et logique
+  res.render('edit-user', { user });
+});
+
+
 /**
  * @route GET /users/:id
  * @desc Récupérer un utilisateur par ID

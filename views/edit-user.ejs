@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier Utilisateur</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Modifier l'Utilisateur</h1>
+    <form method="POST" action="/users/<%= user._id %>?_method=PUT">
+        <label>
+            Nom d'utilisateur :
+            <input type="text" name="username" value="<%= user.username %>" required minlength="3">
+        </label>
+        <br>
+        <label>
+            Adresse email :
+            <input type="email" name="email" value="<%= user.email %>" required>
+        </label>
+        <br>
+        <button type="submit">Enregistrer les modifications</button>
+    </form>
+    <a href="/users" class="button red">Annuler</a>
+</body>
+</html>
