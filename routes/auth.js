@@ -61,7 +61,7 @@ router.post('/login', async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     // Redirection vers la page de réservation après connexion
-    res.redirect('/reservations');  // Redirige vers la page réservation
+    res.redirect('/dashboard');  // Redirige vers la page réservation
 
   } catch (err) {
     console.error(err);

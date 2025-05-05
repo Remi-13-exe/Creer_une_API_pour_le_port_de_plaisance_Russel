@@ -6,6 +6,7 @@ const methodOverride = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash');
 const authRoutes = require('./routes/auth');
+const passport = require('passport');
 
 
 
@@ -27,6 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method')); // Permet l'utilisation des méthodes PUT et DELETE via des formulaires
 app.use(express.static(path.join(__dirname, 'public'))); // Servir les fichiers statiques
 app.use('/auth', authRoutes);
+
 
 // Configuration du moteur de vues
 app.set('view engine', 'ejs');
@@ -53,6 +55,10 @@ app.use((req, res, next) => {
   console.log(typeof req.flash); // Devrait afficher "function"
   next();
 });
+
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Modèles Mongoose
 const CatwaySchema = new mongoose.Schema({
@@ -213,6 +219,22 @@ app.get('/users/:id/edit', async (req, res) => {
   const user = await User.findById(req.params.id); // Remplace par ton modèle et logique
   res.render('edit-user', { user });
 });
+
+// Tableau de Bord
+app.get('/dashboard', (req, res) => {
+  res.render('dashboard');
+});
+
+
+app.get('/logout', (req, res, next) => {
+  req.logout(err => {
+      if (err) {
+          return next(err); // Gestion des erreurs
+      }
+      res.redirect('/auth/login'); // Redirige après la déconnexion
+  });
+});
+
 
 
 

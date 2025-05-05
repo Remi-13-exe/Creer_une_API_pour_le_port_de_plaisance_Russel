@@ -216,3 +216,127 @@ a.button.red {
 a.button.red:hover {
     background-color: #c0392b; /* Rouge plus foncé au survol */
 }
+
+/* Menu de navigation */
+ul {
+    list-style-type: none;
+    margin: 180px 0; /* Ajoute de l'espace au-dessus et en dessous du menu */
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+li {
+    margin: 0 30px;
+    font-size: 1.2rem; /* Augmente la taille de la police */
+
+}
+
+a {
+    display: block;
+    padding: 20px 40px;
+    text-decoration: none;
+    color: white;
+    background-color: #3498db;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
+
+}
+
+a:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
+}
+
+.logout-button {
+    background-color: #e74c3c;
+}
+
+.logout-button:hover {
+    background-color: #c0392b;
+}
+
+
+/* Navigation principale */
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #226795;
+    position: relative;
+}
+
+/* Bouton Burger */
+.burger-menu {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25px;
+    height: 18px;
+    z-index: 10;
+}
+
+.burger-menu span {
+    background-color: white;
+    height: 3px;
+    width: 100%;
+}
+/* Menu initial */
+.nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 20px; /* Position alignée à gauche */
+    background-color: #226795;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(-20px); /* Départ vers le haut */
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Lorsque le menu est actif */
+.nav-links.active {
+    opacity: 1;
+    transform: translateY(0); /* Retour à la position originale */
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* Style des liens */
+.nav-links li {
+    margin: 10px 0;
+    text-align: left; /* Alignement à gauche pour un meilleur rendu */
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    font-size: 18px;
+}
+
+/* Animation du bouton burger */
+.burger-menu.open span:nth-child(1) {
+    transform: rotate(45deg) translateY(8px);
+    transition: transform 0.3s ease;
+}
+
+.burger-menu.open span:nth-child(2) {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.burger-menu.open span:nth-child(3) {
+    transform: rotate(-45deg) translateY(-8px);
+    transition: transform 0.3s ease;
+}
