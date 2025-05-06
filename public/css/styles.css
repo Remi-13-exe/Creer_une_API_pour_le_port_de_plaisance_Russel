@@ -1,4 +1,11 @@
 /* catways.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+
+
+* {
+    font-family: 'Poppins', sans-serif;
+
+}
 
 /* Style global */
 body {
@@ -12,12 +19,32 @@ body {
 /* En-tête de page */
 h1 {
     text-align: center;
-    color: #2c3e50;
     padding: 20px 0;
     background-color: #3498db;
     color: white;
     margin: 0;
+
 }
+.h1-dashboard {
+   
+    margin-bottom: 130px; /* Ajoute de l'espace en dessous du titre */
+
+
+}
+
+h2 {
+    font-size: 24px; /* Taille de police */
+    color: #226795; /* Couleur principale, assortie au site */
+    text-transform: uppercase; /* Convertit le texte en majuscules */
+    letter-spacing: 1px; /* Espacement entre les lettres */
+    font-weight: bold; /* Rend le texte plus visible */
+    text-align: center; /* Centre le texte */
+    margin-bottom: 20px; /* Ajoute de l’espace en dessous */
+    padding-bottom: 10px; /* Ajoute un peu de "respiration" */
+    border-bottom: 2px solid #3498db; /* Ligne décorative sous le texte */
+}
+
+
 
 /* Table de catways */
 table {
@@ -220,30 +247,23 @@ a.button.red:hover {
 /* Menu de navigation */
 ul {
     list-style-type: none;
-    margin: 180px 0; /* Ajoute de l'espace au-dessus et en dessous du menu */
+    margin: 0 auto; /* Centre horizontalement */
     padding: 0;
     display: flex;
     justify-content: center;
     border-radius: 8px;
+    background: none;
+    
 }
+
 
 li {
     margin: 0 30px;
-    font-size: 1.2rem; /* Augmente la taille de la police */
+    font-size: 20px; /* Augmente la taille de la police */
 
 }
 
-a {
-    display: block;
-    padding: 20px 40px;
-    text-decoration: none;
-    color: white;
-    background-color: #3498db;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    font-weight: bold;
 
-}
 
 a:hover {
     background-color: #2980b9;
@@ -265,11 +285,10 @@ nav {
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
-    background-color: #226795;
     position: relative;
 }
 
-/* Bouton Burger */
+/* Style initial du bouton burger */
 .burger-menu {
     cursor: pointer;
     display: flex;
@@ -278,18 +297,35 @@ nav {
     width: 25px;
     height: 18px;
     z-index: 10;
+    position: relative;
 }
 
 .burger-menu span {
-    background-color: white;
-    height: 3px;
+    display: block;
     width: 100%;
+    height: 3px;
+    background-color: #226795;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
+
+/* État du bouton burger lorsque le menu est ouvert */
+.burger-menu.open span:nth-child(1) {
+    transform: rotate(45deg) translateY(8px);
+}
+
+.burger-menu.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.burger-menu.open span:nth-child(3) {
+    transform: rotate(-45deg) translateY(-8px);
+}
+
 /* Menu initial */
 .nav-links {
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 10px 20px; /* Ajout de marge intérieure pour élargir horizontalement */
     flex-direction: column;
     position: absolute;
     top: 60px;
@@ -301,6 +337,8 @@ nav {
     visibility: hidden;
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease;
+    min-width: 200px; /* Largeur minimale pour éviter un affichage trop étroit */
+    border-radius: 8px; /* Optionnel : arrondir les bords */
 }
 
 /* Lorsque le menu est actif */
@@ -318,25 +356,65 @@ nav {
 }
 
 .nav-links a {
+    max-width: fit-content; /* Empêche de dépasser la largeur du contenu */
     color: white;
     text-decoration: none;
-    padding: 10px 20px;
+    padding: 10px 20px; /* Ajout de marge intérieure pour les liens */
     display: block;
     font-size: 18px;
 }
 
-/* Animation du bouton burger */
-.burger-menu.open span:nth-child(1) {
-    transform: rotate(45deg) translateY(8px);
-    transition: transform 0.3s ease;
+
+
+
+a {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: white;
+    background-color: #3498db;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
+    max-width: fit-content; /* Empêche de dépasser la largeur du contenu */
+
+
 }
 
-.burger-menu.open span:nth-child(2) {
-    opacity: 0;
-    transition: opacity 0.3s ease;
+.register-login {
+    display: inline-block; /* Ajuste la largeur au contenu */
+    padding: 10px 20px; /* Espacement interne */
+    text-decoration: none; /* Pas de soulignement */
+    color: white; /* Couleur du texte */
+    background-color: #3498db; /* Couleur de fond */
+    border: 2px solid #3498db; /* Bordure encadrée */
+    border-radius: 4px; /* Coins arrondis */
+    font-weight: bold; /* Texte en gras */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Animation */
+    max-width: fit-content; /* Empêche de dépasser la largeur du contenu */
 }
 
-.burger-menu.open span:nth-child(3) {
-    transform: rotate(-45deg) translateY(-8px);
-    transition: transform 0.3s ease;
+.API-document {
+    display: inline-block; /* Ajuste la largeur au contenu */
+    padding: 10px 20px; /* Espacement interne */
+    text-decoration: none; /* Pas de soulignement */
+    color: white; /* Couleur du texte */
+    background-color: #27ae60; /* Couleur de fond vert */
+    border: 2px solid #27ae60; /* Bordure encadrée */
+    border-radius: 4px; /* Coins arrondis */
+    font-weight: bold; /* Texte en gras */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Animation */
+    max-width: fit-content; /* Empêche de dépasser la largeur du contenu */
+    text-align: center; /* Centrer le texte si nécessaire */
 }
+
+/* Animation au survol */
+.API-document:hover {
+    background-color: #1a703e; /* Fond blanc au survol */
+    border: 2px solid #1a703e; /* Bordure encadrée */
+
+    color:white ;
+    transform: scale(1.05); /* Légère mise en avant */
+}
+
+

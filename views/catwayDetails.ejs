@@ -7,11 +7,47 @@
     <title>Détails du Catway</title>
 </head>
 <body>
+    <header>
     <h1>Détails du Catway</h1>
+    <nav>
+        <!-- Bouton Burger (visible uniquement sur PC) -->
+        <div class="burger-menu" id="burger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    
+        <!-- Menu qui sera caché par défaut (mobile) et affiché lors du clic sur le bouton burger -->
+        <ul class="nav-links" id="nav-links">
+            <li><a href="/dashboard">Tableau de Bord</a></li>
+            <li><a href="/catways">Gestion des Catways</a></li>
+            <li><a href="/reservations">Gestion des Réservations</a></li>
+            <li><a href="/users">Gestion des Utilisateurs</a></li>
+            <li><a class="API-document" href="/api-docs">Documentation API</a></li>
+            <li><a href="/logout" class="logout-button">Se Déconnecter</a></li>
+        </ul>
+    </nav>
+    </header>
+
     <p><strong>Numéro :</strong> <%= catway.catwayNumber %></p>
     <p><strong>Type :</strong> <%= catway.catwayType %></p>
     <p><strong>État :</strong> <%= catway.catwayState %></p>
 
     <a href="/catways" class="button red">Retour à la liste des catways</a>
+
+    <script>
+        // Sélection des éléments HTML
+        const burgerMenu = document.getElementById("burger-menu");
+        const navLinks = document.getElementById("nav-links");
+    
+        // Ajout d'un événement de clic pour ouvrir/fermer le menu et animer le burger
+        burgerMenu.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
+            burgerMenu.classList.toggle("open"); // Ajoute la classe "open" pour l'animation
+        });
+    </script>
+
+
+
 </body>
 </html>
