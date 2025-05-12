@@ -1,53 +1,58 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <!-- Déclaration de l'encodage et des propriétés du viewport pour une bonne réactivité mobile -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Lien vers la feuille de style principale -->
     <link rel="stylesheet" href="/css/styles.css">
+    <!-- Titre de la page affiché dans l'onglet du navigateur -->
     <title>Détails du Catway</title>
 </head>
 <body>
     <header>
-    <h1>Détails du Catway</h1>
-    <nav>
-        <!-- Bouton Burger (visible uniquement sur PC) -->
-        <div class="burger-menu" id="burger-menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+        <!-- Titre principal de la page -->
+        <h1>Détails du Catway</h1>
+        <nav>
+            <!-- Bouton burger pour la navigation mobile -->
+            <div class="burger-menu" id="burger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
     
-        <!-- Menu qui sera caché par défaut (mobile) et affiché lors du clic sur le bouton burger -->
-        <ul class="nav-links" id="nav-links">
-            <li><a href="/dashboard">Tableau de Bord</a></li>
-            <li><a href="/catways">Gestion des Catways</a></li>
-            <li><a href="/reservations">Gestion des Réservations</a></li>
-            <li><a href="/users">Gestion des Utilisateurs</a></li>
-            <li><a class="API-document" href="/api-docs">Documentation API</a></li>
-            <li><a href="/logout" class="logout-button">Se Déconnecter</a></li>
-        </ul>
-    </nav>
+            <!-- Menu de navigation accessible via le burger-menu -->
+            <ul class="nav-links" id="nav-links">
+                <li><a href="/dashboard">Tableau de Bord</a></li>
+                <li><a href="/catways">Gestion des Catways</a></li>
+                <li><a href="/reservations">Gestion des Réservations</a></li>
+                <li><a href="/users">Gestion des Utilisateurs</a></li>
+                <li><a class="API-document" href="/docs/Api.md">Documentation API</a></li>
+                <li><a href="/logout" class="logout-button">Se Déconnecter</a></li>
+            </ul>
+        </nav>
     </header>
 
+    <!-- Affichage des détails du catway en utilisant la syntaxe EJS pour injecter les données dynamiques -->
     <p><strong>Numéro :</strong> <%= catway.catwayNumber %></p>
     <p><strong>Type :</strong> <%= catway.catwayType %></p>
     <p><strong>État :</strong> <%= catway.catwayState %></p>
 
+    <!-- Lien permettant de retourner à la liste des catways -->
     <a href="/catways" class="button red">Retour à la liste des catways</a>
 
     <script>
-        // Sélection des éléments HTML
+        // Sélection du bouton burger et du menu de navigation par leur ID
         const burgerMenu = document.getElementById("burger-menu");
         const navLinks = document.getElementById("nav-links");
     
-        // Ajout d'un événement de clic pour ouvrir/fermer le menu et animer le burger
+        // Ajout d'un écouteur d'événement sur le bouton burger pour basculer l'affichage du menu
         burgerMenu.addEventListener("click", () => {
+            // Alternance de la classe "active" sur le menu pour afficher/cacher les liens
             navLinks.classList.toggle("active");
-            burgerMenu.classList.toggle("open"); // Ajoute la classe "open" pour l'animation
+            // Alternance de la classe "open" sur le bouton burger pour déclencher l'animation associée
+            burgerMenu.classList.toggle("open");
         });
     </script>
-
-
-
 </body>
 </html>

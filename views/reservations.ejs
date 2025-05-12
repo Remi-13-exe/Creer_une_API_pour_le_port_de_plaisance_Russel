@@ -1,68 +1,84 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <!-- Déclaration de l'encodage UTF-8 et configuration du viewport pour une bonne réactivité -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des Réservations</title>
+    <!-- Lien vers la feuille de style CSS -->
     <link rel="stylesheet" href="/css/styles.css">
+    <!-- Titre de la page affiché dans l'onglet du navigateur -->
+    <title>Gestion des Réservations</title>
 </head>
 <body>
+    <!-- En-tête de la page avec titre et navigation principale -->
     <header>
-    <h1>Gestion des Réservations</h1>
-    <nav>
-        <!-- Bouton Burger (visible uniquement sur PC) -->
-        <div class="burger-menu" id="burger-menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+        <!-- Titre de la page -->
+        <h1>Gestion des Réservations</h1>
+        <nav>
+            <!-- Bouton Burger pour l'affichage du menu de navigation sur petits écrans -->
+            <div class="burger-menu" id="burger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
     
-        <!-- Menu qui sera caché par défaut (mobile) et affiché lors du clic sur le bouton burger -->
-        <ul class="nav-links" id="nav-links">
-            <li><a href="/dashboard">Tableau de Bord</a></li>
-            <li><a href="/catways">Gestion des Catways</a></li>
-            <li><a href="/reservations">Gestion des Réservations</a></li>
-            <li><a href="/users">Gestion des Utilisateurs</a></li>
-            <li><a class="API-document" href="/api-docs">Documentation API</a></li>
-            <li><a href="/logout" class="logout-button">Se Déconnecter</a></li>
-        </ul>
-    </nav>
+            <!-- Menu de navigation qui est caché par défaut sur mobile et affiché lors du clic sur le burger -->
+            <ul class="nav-links" id="nav-links">
+                <li><a href="/dashboard">Tableau de Bord</a></li>
+                <li><a href="/catways">Gestion des Catways</a></li>
+                <li><a href="/reservations">Gestion des Réservations</a></li>
+                <li><a href="/users">Gestion des Utilisateurs</a></li>
+                <li><a class="API-document" href="/docs/Api.md">Documentation API</a></li>
+                <li><a href="/logout" class="logout-button">Se Déconnecter</a></li>
+            </ul>
+        </nav>
     </header>
     
+    <!-- Titre pour la section d'ajout d'une réservation -->
     <h2>Ajouter une Réservation</h2>
+    <!-- Formulaire pour ajouter une nouvelle réservation -->
     <form method="POST" action="/reservations">
+        <!-- Champ pour saisir le numéro du catway -->
         <label>
             Numéro du Catway :
             <input type="number" name="catwayNumber" required>
         </label>
         <br>
+        <!-- Champ pour saisir le nom du client -->
         <label>
             Nom du Client :
             <input type="text" name="clientName" required>
         </label>
         <br>
+        <!-- Champ pour saisir le nom du bateau -->
         <label>
             Nom du Bateau :
             <input type="text" name="boatName" required>
         </label>
         <br>
+        <!-- Champ pour saisir la date de début de la réservation -->
         <label>
             Date de Début :
             <input type="date" name="startDate" required>
         </label>
         <br>
+        <!-- Champ pour saisir la date de fin de la réservation -->
         <label>
             Date de Fin :
             <input type="date" name="endDate" required>
         </label>
         <br>
+        <!-- Bouton pour soumettre le formulaire et ajouter la réservation -->
         <button type="submit">Ajouter la Réservation</button>
     </form>
-
+    
+    <!-- Titre pour la section listant les réservations -->
     <h2>Liste des Réservations</h2>
+    <!-- Tableau affichant les réservations existantes -->
     <table border="1">
         <thead>
             <tr>
+                <!-- En-têtes des colonnes indiquant les attributs de la réservation -->
                 <th>Numéro du Catway</th>
                 <th>Nom du Client</th>
                 <th>Nom du Bateau</th>
@@ -72,21 +88,28 @@
             </tr>
         </thead>
         <tbody>
+            <!-- Vérifie si la variable "reservations" contient des éléments -->
             <% if (reservations.length > 0) { %>
+                <!-- Parcours de chaque réservation dans "reservations" -->
                 <% reservations.forEach(reservation => { %>
                     <tr>
+                        <!-- Affichage des informations de la réservation -->
                         <td><%= reservation.catwayNumber %></td>
                         <td><%= reservation.clientName %></td>
                         <td><%= reservation.boatName %></td>
+                        <!-- Conversion de la date de début au format local -->
                         <td><%= reservation.startDate.toLocaleDateString() %></td>
+                        <!-- Conversion de la date de fin au format local -->
                         <td><%= reservation.endDate.toLocaleDateString() %></td>
                         <td>
+                            <!-- Formulaire de suppression : utilise la méthode POST avec method-override pour DELETE -->
                             <form method="POST" action="/reservations/<%= reservation._id %>?_method=DELETE" style="display:inline;">
                                 <button>Supprimer</button>
                             </form>
                         </td>
                     </tr>
                 <% }); %>
+            <!-- Si aucune réservation n'est trouvée, afficher un message dans le tableau -->
             <% } else { %>
                 <tr>
                     <td colspan="6">Aucune réservation trouvée.</td>
@@ -94,18 +117,20 @@
             <% } %>
         </tbody>
     </table>
-
+    
     <script>
-        // Sélection des éléments HTML
+        // Sélectionne l'élément bouton Burger à partir de son ID
         const burgerMenu = document.getElementById("burger-menu");
+        // Sélectionne le menu de navigation via son ID
         const navLinks = document.getElementById("nav-links");
     
-        // Ajout d'un événement de clic pour ouvrir/fermer le menu et animer le burger
+        // Ajoute un écouteur pour le clic sur le bouton burger
         burgerMenu.addEventListener("click", () => {
+            // Bascule la classe "active" sur le menu de navigation pour afficher ou masquer le menu
             navLinks.classList.toggle("active");
+            // Bascule la classe "open" sur le burger pour appliquer l'animation correspondante
             burgerMenu.classList.toggle("open"); // Ajoute la classe "open" pour l'animation
         });
     </script>
 </body>
 </html>
-

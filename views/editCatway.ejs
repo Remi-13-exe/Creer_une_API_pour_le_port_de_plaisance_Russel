@@ -1,57 +1,80 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <!-- Indique que le document utilise l'encodage UTF-8 -->
     <meta charset="UTF-8">
+    <!-- Indique au navigateur comment gérer le viewport pour une bonne réactivité sur mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Lien vers la feuille de style CSS pour appliquer les styles définis -->
     <link rel="stylesheet" href="/css/styles.css">
+    <!-- Titre de la page affiché dans l'onglet du navigateur -->
     <title>Modifier l'État du Catway</title>
 </head>
 <body> 
+    <!-- En-tête principal de la page -->
     <header>
-    <h1>Modifier l'État du Catway</h1>
+        <!-- Titre affiché en haut de la page -->
+        <h1>Modifier l'État du Catway</h1>
 
-    <nav>
-        <!-- Bouton Burger (visible uniquement sur PC) -->
-        <div class="burger-menu" id="burger-menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    
-        <!-- Menu qui sera caché par défaut (mobile) et affiché lors du clic sur le bouton burger -->
-        <ul class="nav-links" id="nav-links">
-            <li><a href="/dashboard">Tableau de Bord</a></li>
-            <li><a href="/catways">Gestion des Catways</a></li>
-            <li><a href="/reservations">Gestion des Réservations</a></li>
-            <li><a href="/users">Gestion des Utilisateurs</a></li>
-            <li><a class="API-document" href="/api-docs">Documentation API</a></li>
-            <li><a href="/logout" class="logout-button">Se Déconnecter</a></li>
-        </ul>
-    </nav>
+        <!-- Navigation principale -->
+        <nav>
+            <!-- Bouton Burger pour la navigation sur les petits écrans (affiché uniquement sur mobile/PC selon le CSS) -->
+            <div class="burger-menu" id="burger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        
+            <!-- Menu de navigation qui est caché par défaut pour mobile et affiché lorsque le burger est cliqué -->
+            <ul class="nav-links" id="nav-links">
+                <!-- Lien vers le Tableau de Bord -->
+                <li><a href="/dashboard">Tableau de Bord</a></li>
+                <!-- Lien vers la page de gestion des Catways -->
+                <li><a href="/catways">Gestion des Catways</a></li>
+                <!-- Lien vers la page de gestion des Réservations -->
+                <li><a href="/reservations">Gestion des Réservations</a></li>
+                <!-- Lien vers la page de gestion des Utilisateurs -->
+                <li><a href="/users">Gestion des Utilisateurs</a></li>
+                <!-- Lien vers la documentation de l'API -->
+                <li><a class="API-document" href="/docs/Api.md">Documentation API</a></li>
+                <!-- Lien de déconnexion -->
+                <li><a href="/logout" class="logout-button">Se Déconnecter</a></li>
+            </ul>
+        </nav>
     </header>
 
+    <!-- Formulaire de modification de l'état du catway -->
+    <!-- La méthode POST est utilisée ici associée à '?_method=PUT' pour simuler une requête PUT via method-override -->
     <form method="POST" action="/catways/<%= catway._id %>?_method=PUT">
+        <!-- Affichage du numéro du catway (non modifiable) -->
         <p><strong>Numéro :</strong> <%= catway.catwayNumber %></p>
+        <!-- Affichage du type du catway (non modifiable) -->
         <p><strong>Type :</strong> <%= catway.catwayType %></p>
         
+        <!-- Champ de saisie pour modifier l'état du catway -->
         <label for="catwayState">État :</label>
+        <!-- Zone de texte pré-remplie avec l'état actuel du catway et rendue obligatoire -->
         <textarea name="catwayState" id="catwayState" rows="4" required><%= catway.catwayState %></textarea>
         <br>
+        <!-- Bouton pour soumettre le formulaire et mettre à jour l'état du catway -->
         <button type="submit">Mettre à jour</button>
     </form>
 
+    <!-- Lien permettant d'annuler l'action et de revenir à la liste des catways -->
     <a href="/catways" class="button cancel">Annuler</a>
 
-
-
     <script>
-        // Sélection des éléments HTML
+        // Sélectionne le bouton burger dans le DOM par son identifiant
         const burgerMenu = document.getElementById("burger-menu");
+        // Sélectionne l'élément de navigation contenant les liens, par son identifiant
         const navLinks = document.getElementById("nav-links");
     
-        // Ajout d'un événement de clic pour ouvrir/fermer le menu et animer le burger
+        // Ajoute un événement au clic sur le bouton burger 
+        // pour basculer l'affichage du menu de navigation et activer l'animation du burger
         burgerMenu.addEventListener("click", () => {
+            // Bascule la classe "active" sur l'élément navigation pour l'afficher ou le masquer
             navLinks.classList.toggle("active");
+            // Bascule la classe "open" sur le bouton burger pour activer l'animation correspondante
             burgerMenu.classList.toggle("open"); // Ajoute la classe "open" pour l'animation
         });
     </script>

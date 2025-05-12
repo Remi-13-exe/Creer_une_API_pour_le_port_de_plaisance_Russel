@@ -2,58 +2,82 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+  <!-- Déclare le jeu de caractères utilisé par la page -->
   <meta charset="UTF-8">
+  <!-- Configure le viewport pour un rendu optimal sur les appareils mobiles -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Titre affiché dans l'onglet du navigateur -->
   <title>Inscription</title>
+  <!-- Lien vers la feuille de style principale -->
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+  <!-- Conteneur principal pour centrer le contenu de la page -->
   <div class="container">
+    <!-- Titre de la page d'inscription -->
     <h1>Inscription</h1>
+    <!-- Formulaire d'inscription avec l'ID "registerForm" qui envoie les données en POST à la route /auth/register -->
     <form id="registerForm" action="/auth/register" method="POST">
       <div>
+        <!-- Label pour le champ du nom d'utilisateur -->
         <label for="username">Nom d'utilisateur :</label>
+        <!-- Champ de saisie pour le nom d'utilisateur (requis) -->
         <input type="text" name="username" id="username" required />
       </div>
       <div>
+        <!-- Label pour le champ de l'email -->
         <label for="email">Email :</label>
+        <!-- Champ de saisie pour l'email, de type email, requis -->
         <input type="email" name="email" id="email" required />
       </div>
       <div>
+        <!-- Label pour le champ du mot de passe -->
         <label for="password">Mot de passe :</label>
+        <!-- Champ de saisie pour le mot de passe, de type password, requis -->
         <input type="password" name="password" id="password" required />
       </div>
+      <!-- Bouton pour soumettre le formulaire d'inscription -->
       <button type="submit">S'inscrire</button>
     </form>
   </div>
 
+  <!-- Lien proposant aux utilisateurs déjà inscrits de se connecter -->
   <p style="margin-top: 20px;">
-    Deja inscrit ? <a href="/auth/login">Se connecter ici</a>
+    Déja inscrit ? <a href="/auth/login">Se connecter ici</a>
   </p>
   <script>
-    // Le script JavaScript ici même
+    // Le script JavaScript est écrit ici directement dans le fichier
+    // Ajoute un écouteur d'événement sur le formulaire d'inscription
     document.querySelector('#registerForm').addEventListener('submit', async (e) => {
-      e.preventDefault(); // Empêche le rechargement de la page
+      e.preventDefault(); // Empêche le comportement par défaut (rechargement de la page lors de la soumission du formulaire)
 
+      // Récupération des valeurs saisies dans les champs du formulaire
       const username = document.querySelector('#username').value;
       const email = document.querySelector('#email').value;
       const password = document.querySelector('#password').value;
 
       try {
+        // Envoi d'une requête POST vers l'API d'inscription
         const response = await fetch('http://localhost:5000/auth/register', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json', // Indique que le corps de la requête est en format JSON
           },
+          // Conversion des données du formulaire en chaîne JSON
           body: JSON.stringify({ username, email, password }),
         });
 
+        // Lecture de la réponse JSON renvoyée par le serveur
         const data = await response.json();
+        // Si la réponse n'est pas OK, on lève une erreur avec le message fourni
         if (!response.ok) {
           throw new Error(data.message || 'Une erreur est survenue');
         }
 
+        // Affiche un message pour indiquer que l'inscription a réussi
         alert('Inscription réussie !');
       } catch (err) {
+        // En cas d'erreur, on la log dans la console et on affiche un message d'erreur à l'utilisateur
         console.error('Erreur lors de l’inscription :', err);
         alert(err.message);
       }

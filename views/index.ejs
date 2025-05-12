@@ -1,37 +1,55 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+  <!-- Déclaration de l'encodage du document en UTF-8 -->
   <meta charset="UTF-8">
+  <!-- Configuration du viewport pour un affichage responsive sur mobile -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Titre de l'onglet dans le navigateur -->
   <title>Port Russell - Connexion</title>
+  <!-- Lien vers la feuille de style CSS pour styliser la page -->
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+  <!-- Conteneur principal qui regroupe tout le contenu de la page -->
   <div class="container">
+    <!-- Titre d'accueil de la page -->
     <h1>Bienvenue sur l’application du Port de Plaisance Russell</h1>
+    <!-- Message informatif invitant l'utilisateur à se connecter -->
     <p>Connectez-vous pour accéder au tableau de bord.</p>
 
+    <!-- Section conditionnelle côté serveur (EJS) : affichage d'un message d'erreur si la variable error est définie -->
     <% if (error) { %>
+      <!-- Affichage du message d'erreur en rouge pour attirer l'attention de l'utilisateur -->
       <div style="color: red;"><%= error %></div>
     <% } %>
 
+    <!-- Formulaire de connexion redirigeant vers la route /auth/login en utilisant la méthode POST -->
     <form action="/auth/login" method="POST">
       <div>
+        <!-- Label pour le champ email, important pour l'accessibilité -->
         <label for="email">Email :</label>
+        <!-- Champ de saisie pour l'email, de type email, requis pour la validation -->
         <input type="email" name="email" required />
       </div>
       <div>
+        <!-- Label pour le champ mot de passe -->
         <label for="password">Mot de passe :</label>
+        <!-- Champ de saisie pour le mot de passe, de type password, imposant la saisie d'une valeur -->
         <input type="password" name="password" required />
       </div>
+      <!-- Bouton de soumission du formulaire pour initier la connexion -->
       <button type="submit">Se connecter</button>
     </form>
 
+    <!-- Paragraphe offrant un lien vers la page d'inscription pour les utilisateurs qui n'ont pas encore de compte -->
     <p style="margin-top: 20px;">
       Pas encore de compte ? <a class="register-login" href="/auth/register">Inscrivez-vous ici</a>
     </p>
 
+    <!-- Lien vers la documentation de l'API, permettant d'accéder aux détails techniques de l'API -->
     <p>
-      <a class="API-document" href="/docs">Voir la documentation de l’API</a>
+      <a class="API-document" href="/docs/Api.md">Voir la documentation de l’API</a>
     </p>
   </div>
 </body>

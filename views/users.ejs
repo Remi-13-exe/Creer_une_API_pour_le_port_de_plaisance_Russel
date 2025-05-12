@@ -1,91 +1,100 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <!-- Déclare que le document utilise l'encodage UTF-8 -->
     <meta charset="UTF-8">
+    <!-- Configure le viewport pour un affichage optimal sur tous les appareils -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Titre de la page affiché dans l'onglet du navigateur -->
     <title>Gestion des Utilisateurs</title>
+    <!-- Lien vers la feuille de style externe qui gère l'apparence de la page -->
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+    <!-- En-tête de la page contenant le titre principal et la navigation -->
     <header>
-    <h1>Gestion des Utilisateurs</h1>
-    <nav>
-        <!-- Bouton Burger (visible uniquement sur PC) -->
-        <div class="burger-menu" id="burger-menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+        <h1>Gestion des Utilisateurs</h1>
+        <nav>
+            <!-- Bouton Burger : visible sur mobile pour afficher/masquer le menu -->
+            <div class="burger-menu" id="burger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
     
-        <!-- Menu qui sera caché par défaut (mobile) et affiché lors du clic sur le bouton burger -->
-        <ul class="nav-links" id="nav-links">
-            <li><a href="/dashboard">Tableau de Bord</a></li>
-            <li><a href="/catways">Gestion des Catways</a></li>
-            <li><a href="/reservations">Gestion des Réservations</a></li>
-            <li><a href="/users">Gestion des Utilisateurs</a></li>
-            <li><a class="API-document" href="/api-docs">Documentation API</a></li>
-            <li><a href="/logout" class="logout-button">Se Déconnecter</a></li>
-        </ul>
-    </nav>
+            <!-- Menu de navigation qui est masqué par défaut en mode mobile -->
+            <ul class="nav-links" id="nav-links">
+                <li><a href="/dashboard">Tableau de Bord</a></li>
+                <li><a href="/catways">Gestion des Catways</a></li>
+                <li><a href="/reservations">Gestion des Réservations</a></li>
+                <li><a href="/users">Gestion des Utilisateurs</a></li>
+                <li><a class="API-document" href="/docs/Api.md">Documentation API</a></li>
+                <li><a href="/logout" class="logout-button">Se Déconnecter</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <!-- Formulaire pour ajouter un utilisateur -->
+    <!-- Section du formulaire d'ajout d'un nouvel utilisateur -->
     <h2>Ajouter un Utilisateur</h2>
     <form method="POST" action="/users">
+        <!-- Champ pour saisir le nom d'utilisateur, avec validation de longueur minimale -->
         <label>
             Nom d'utilisateur :
             <input type="text" name="username" required minlength="3">
         </label>
         <br>
+        <!-- Champ pour saisir l'adresse email de l'utilisateur -->
         <label>
             Adresse email :
             <input type="email" name="email" required>
         </label>
         <br>
+        <!-- Champ pour saisir le mot de passe, avec une longueur minimale imposée -->
         <label>
             Mot de passe :
             <input type="password" name="password" required minlength="6">
         </label>
         <br>
+        <!-- Bouton pour soumettre le formulaire et ajouter l'utilisateur -->
         <button type="submit">Ajouter l'utilisateur</button>
     </form>
 
-    <!-- Liste des utilisateurs -->
+    <!-- Section affichant la liste des utilisateurs -->
     <h2>Liste des Utilisateurs</h2>
     <table border="1">
         <thead>
             <tr>
+                <!-- Entêtes de la table pour nom d'utilisateur, email et actions -->
                 <th>Nom d'utilisateur</th>
                 <th>Email</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
+            <!-- Vérifie s'il existe des utilisateurs à afficher -->
             <% if (users && users.length > 0) { %>
+                <!-- Pour chaque utilisateur présent dans la variable "users" -->
                 <% users.forEach(user => { %>
                     <tr>
+                        <!-- Affiche le nom d'utilisateur -->
                         <td><%= user.username %></td>
+                        <!-- Affiche l'e-mail de l'utilisateur -->
                         <td><%= user.email %></td>
                         <td>
-                            <!-- Supprimer un utilisateur -->
+                            <!-- Formulaire pour supprimer un utilisateur via la méthode DELETE -->
                             <form method="POST" action="/users/<%= user._id %>?_method=DELETE" style="display:inline;">
                                 <button>Supprimer</button>
                             </form>
-                            <!-- Modifier un utilisateur -->
+                            <!-- Formulaire pour accéder à la page d'édition de l'utilisateur -->
                             <form method="GET" action="/users/<%= user._id %>/edit" style="display:inline;">
                                 <button>Modifier</button>
                             </form>
-
-                              <!-- Détails d'un utilisateur -->
-    <a href="/users/<%= user._id %>" class="button">Détails</a>
+                            <!-- Lien pour afficher les détails d'un utilisateur -->
+                            <a href="/users/<%= user._id %>" class="button">Détails</a>
                         </td>
-                        
-
-
-
-
                     </tr>
                 <% }); %>
+            <!-- Si aucun utilisateur n'est trouvé dans la base de données -->
             <% } else { %>
                 <tr>
                     <td colspan="3">Aucun utilisateur trouvé.</td>
@@ -95,18 +104,20 @@
     </table>
 
     <script>
-        // Sélection des éléments HTML
+        // Sélectionne le bouton burger dans le DOM par son ID
         const burgerMenu = document.getElementById("burger-menu");
+        // Sélectionne la liste des liens de navigation par son ID
         const navLinks = document.getElementById("nav-links");
-    
-        // Ajout d'un événement de clic pour ouvrir/fermer le menu et animer le burger
+
+        // Ajoute un événement de clic sur le bouton burger 
+        // pour basculer sur l'affichage du menu de navigation en mobile
         burgerMenu.addEventListener("click", () => {
+            // Bascule la classe "active" pour afficher ou masquer le menu
             navLinks.classList.toggle("active");
+            // Bascule la classe "open" pour activer l'animation du bouton burger
             burgerMenu.classList.toggle("open"); // Ajoute la classe "open" pour l'animation
         });
     </script>
-
-
 
 </body>
 </html>

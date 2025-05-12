@@ -1,5 +1,8 @@
+// Importation du module Express pour créer et gérer des routes
 const express = require('express');
+// Création d'un routeur Express pour définir des routes spécifiques à cette ressource
 const router = express.Router();
+// Importation du modèle Reservation (vérifiez que le chemin d'importation est correct)
 const Reservation = require('//Reservation');
 
 /**
@@ -8,10 +11,14 @@ const Reservation = require('//Reservation');
  */
 router.get('/:id/reservations', async (req, res) => {
   try {
+    // Conversion du paramètre de route "id" en entier, utilisé comme catwayNumber
     const catwayNumber = parseInt(req.params.id);
+    // Recherche dans la base de données de toutes les réservations correspondant au catwayNumber
     const reservations = await Reservation.find({ catwayNumber });
+    // Retourne les réservations trouvées au format JSON
     res.json(reservations);
   } catch (err) {
+    // En cas d'erreur, renvoie une réponse avec le status 500 et un message d'erreur au format JSON
     res.status(500).json({ error: err.message });
   }
 });
@@ -22,20 +29,19 @@ router.get('/:id/reservations', async (req, res) => {
  */
 router.get('/:id/reservations/:idReservation', async (req, res) => {
   try {
+    // Recherche de la réservation par son ID (idReservation)
     const reservation = await Reservation.findById(req.params.idReservation);
+    // Si aucune réservation n'est trouvée, renvoie une erreur 404
     if (!reservation) {
       return res.status(404).json({ error: "Réservation non trouvée" });
     }
+    // Renvoie le détail de la réservation trouvée au format JSON
     res.json(reservation);
   } catch (err) {
+    // En cas d'erreur, renvoie une réponse avec le status 500 et le message d'erreur correspondant
     res.status(500).json({ error: err.message });
   }
 });
-
-
-
-
-
 
 /**
  * @route POST /:id/reservations
@@ -48,8 +54,11 @@ router.get('/:id/reservations/:idReservation', async (req, res) => {
  */
 router.post('/:id/reservations', async (req, res) => {
   try {
+    // Conversion du paramètre "id" en entier pour obtenir le catwayNumber
     const catwayNumber = parseInt(req.params.id);
+    // Extraction des informations du corps de la requête pour créer la réservation
     const { clientName, boatName, startDate, endDate } = req.body;
+    // Création d'une nouvelle instance du modèle Reservation avec les données fournies
     const newReservation = new Reservation({
       catwayNumber,
       clientName,
@@ -57,9 +66,12 @@ router.post('/:id/reservations', async (req, res) => {
       startDate,
       endDate,
     });
+    // Sauvegarde de la nouvelle réservation dans la base de données
     await newReservation.save();
+    // Renvoie une réponse 201 (créé) avec l'objet de la réservation créée en format JSON
     res.status(201).json(newReservation);
   } catch (err) {
+    // En cas d'erreur, renvoie une réponse 400 (Bad Request) avec le message d'erreur correspondant
     res.status(400).json({ error: err.message });
   }
 });
@@ -70,16 +82,21 @@ router.post('/:id/reservations', async (req, res) => {
  */
 router.put('/:id/reservations/:idReservation', async (req, res) => {
   try {
+    // Mise à jour de la réservation trouvée par son ID avec les données envoyées dans le corps de la requête
+    // L'option { new: true } permet de retourner la nouvelle version du document après mise à jour
     const updatedReservation = await Reservation.findByIdAndUpdate(
       req.params.idReservation,
       req.body,
       { new: true }
     );
+    // Si aucune réservation n'est trouvée, renvoie une réponse 404
     if (!updatedReservation) {
       return res.status(404).json({ error: "Réservation non trouvée" });
     }
+    // Renvoie la réservation mise à jour au format JSON
     res.json(updatedReservation);
   } catch (err) {
+    // En cas d'erreur, renvoie une réponse 500 avec un message d'erreur
     res.status(500).json({ error: err.message });
   }
 });
@@ -90,14 +107,19 @@ router.put('/:id/reservations/:idReservation', async (req, res) => {
  */
 router.delete('/:id/reservations/:idReservation', async (req, res) => {
   try {
+    // Suppression de la réservation identifiée par l'ID (idReservation)
     const deletedReservation = await Reservation.findByIdAndDelete(req.params.idReservation);
+    // Si aucune réservation n'est trouvée, renvoie une réponse 404
     if (!deletedReservation) {
       return res.status(404).json({ error: "Réservation non trouvée" });
     }
+    // Renvoie un message de succès indiquant que la réservation a été supprimée
     res.json({ message: "Réservation supprimée" });
   } catch (err) {
+    // En cas d'erreur, renvoie une réponse 500 avec le message d'erreur correspondant
     res.status(500).json({ error: err.message });
   }
 });
 
+// Exportation du routeur pour pouvoir l'utiliser dans l'application principale
 module.exports = router;

@@ -1,59 +1,71 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <!-- Indique que le document est en HTML et définit la langue sur le français -->
     <meta charset="UTF-8">
+    <!-- Configure le viewport pour un affichage optimal sur mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Titre de la page affiché dans l'onglet du navigateur -->
     <title>Modifier Utilisateur</title>
+    <!-- Lien vers la feuille de style CSS pour appliquer les styles définis -->
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+    <!-- En-tête de la page contenant le titre et la navigation principale -->
     <header>
-    <h1>Modifier l'Utilisateur</h1>
-    <nav>
-        <!-- Bouton Burger (visible uniquement sur PC) -->
-        <div class="burger-menu" id="burger-menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+        <!-- Titre principal de la page -->
+        <h1>Modifier l'Utilisateur</h1>
+        <nav>
+            <!-- Bouton burger pour la navigation sur mobile -->
+            <div class="burger-menu" id="burger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
     
-        <!-- Menu qui sera caché par défaut (mobile) et affiché lors du clic sur le bouton burger -->
-        <ul class="nav-links" id="nav-links">
-            <li><a href="/dashboard">Tableau de Bord</a></li>
-            <li><a href="/catways">Gestion des Catways</a></li>
-            <li><a href="/reservations">Gestion des Réservations</a></li>
-            <li><a href="/users">Gestion des Utilisateurs</a></li>
-            <li><a class="API-document" href="/api-docs">Documentation API</a></li>
-            <li><a href="/logout" class="logout-button">Se Déconnecter</a></li>
-        </ul>
-    </nav>
+            <!-- Menu de navigation qui est masqué par défaut sur mobile et s'affiche lors du clic sur le burger -->
+            <ul class="nav-links" id="nav-links">
+                <li><a href="/dashboard">Tableau de Bord</a></li>
+                <li><a href="/catways">Gestion des Catways</a></li>
+                <li><a href="/reservations">Gestion des Réservations</a></li>
+                <li><a href="/users">Gestion des Utilisateurs</a></li>
+                <li><a class="API-document" href="/docs/Api.md">Documentation API</a></li>
+                <li><a href="/logout" class="logout-button">Se Déconnecter</a></li>
+            </ul>
+        </nav>
     </header>
+    <!-- Formulaire pour modifier l'utilisateur existant en utilisant la méthode PUT via method-override -->
     <form method="POST" action="/users/<%= user._id %>?_method=PUT">
+        <!-- Champ pour modifier le nom d'utilisateur avec valeur pré-remplie -->
         <label>
             Nom d'utilisateur :
             <input type="text" name="username" value="<%= user.username %>" required minlength="3">
         </label>
         <br>
+        <!-- Champ pour modifier l'adresse email avec valeur pré-remplie -->
         <label>
             Adresse email :
             <input type="email" name="email" value="<%= user.email %>" required>
         </label>
         <br>
+        <!-- Bouton de soumission pour enregistrer les modifications -->
         <button type="submit">Enregistrer les modifications</button>
     </form>
+    <!-- Lien permettant d'annuler l'opération et de revenir à la liste des utilisateurs -->
     <a href="/users" class="button red">Annuler</a>
     <script>
-        // Sélection des éléments HTML
+        // Sélectionne le bouton burger dans le DOM par son ID
         const burgerMenu = document.getElementById("burger-menu");
+        // Sélectionne le menu de navigation associé par son ID
         const navLinks = document.getElementById("nav-links");
     
-        // Ajout d'un événement de clic pour ouvrir/fermer le menu et animer le burger
+        // Ajoute un événement de clic au bouton burger pour gérer l'ouverture et la fermeture du menu
         burgerMenu.addEventListener("click", () => {
+            // Bascule la classe "active" sur le menu de navigation pour l'afficher ou le masquer
             navLinks.classList.toggle("active");
-            burgerMenu.classList.toggle("open"); // Ajoute la classe "open" pour l'animation
+            // Bascule la classe "open" sur le bouton burger pour activer l'animation correspondante
+            burgerMenu.classList.toggle("open"); 
         });
     </script>
-    
-
 </body>
 </html>

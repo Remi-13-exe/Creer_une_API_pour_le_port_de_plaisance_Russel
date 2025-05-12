@@ -1,13 +1,14 @@
 /* catways.css */
+/* Importation de la police "Poppins" depuis Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
 
-
+/* Application de la police "Poppins" à tous les éléments */
 * {
     font-family: 'Poppins', sans-serif;
-
 }
 
-/* Style global */
+/* Style global du body */
+/* Définit la police, le fond, les marges, le padding et la couleur du texte par défaut */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
@@ -16,22 +17,24 @@ body {
     color: #333;
 }
 
-/* En-tête de page */
+/* Style de l'en-tête de page (h1) */
+/* Centre le texte, applique un padding, définit le fond et la couleur du texte */
 h1 {
     text-align: center;
     padding: 20px 0;
     background-color: #3498db;
     color: white;
     margin: 0;
-
 }
+
+/* Classe spécifique pour le titre du dashboard */
+/* Ajoute de l'espace en dessous du titre */
 .h1-dashboard {
-   
     margin-bottom: 130px; /* Ajoute de l'espace en dessous du titre */
-
-
 }
 
+/* Style des sous-titres (h2) */
+/* Configure la taille, la couleur, la transformation du texte et d'autres propriétés */
 h2 {
     font-size: 24px; /* Taille de police */
     color: #226795; /* Couleur principale, assortie au site */
@@ -39,38 +42,44 @@ h2 {
     letter-spacing: 1px; /* Espacement entre les lettres */
     font-weight: bold; /* Rend le texte plus visible */
     text-align: center; /* Centre le texte */
-    margin-bottom: 20px; /* Ajoute de l’espace en dessous */
+    margin-bottom: 20px; /* Ajoute de l'espace en dessous */
     padding-bottom: 10px; /* Ajoute un peu de "respiration" */
     border-bottom: 2px solid #3498db; /* Ligne décorative sous le texte */
 }
 
-
-
-/* Table de catways */
+/* Styles pour la table des catways */
+/* Définit la largeur, les marges, le style de bordure et l'ombre portée */
 table {
     width: 80%;
     margin: 30px auto;
     border-collapse: collapse;
     background-color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    table-layout: fixed; /* Cette règle permet de mieux contrôler la largeur des colonnes */
+    table-layout: fixed; /* Permet de mieux contrôler la largeur des colonnes */
 }
 
+/* Styles pour les cellules de la table (th et td) */
+/* Applique du padding, un alignement à gauche et une bordure inférieure */
 th, td {
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
 
+/* Style pour les entêtes de la table (th) */
+/* Définit une couleur de fond pour les en-têtes */
 th {
     background-color: #3498db;
 }
 
+/* Effet de survol sur les lignes de la table */
+/* Change la couleur de fond lors du survol */
 tr:hover {
     background-color: #f1f1f1;
 }
 
-/* Formulaire d'ajout de catway */
+/* Style du formulaire d'ajout de catway */
+/* Définit la largeur, le margin, le padding et le rayon des bords */
 form {
     width: 50%;
     margin: 30px auto;
@@ -78,6 +87,8 @@ form {
     border-radius: 8px;
 }
 
+/* Style des labels dans le formulaire */
+/* Affiche en bloc, avec une marge et une taille de police définie */
 form label {
     display: block;
     margin-bottom: 8px;
@@ -85,6 +96,8 @@ form label {
     color: #333;
 }
 
+/* Styles des inputs, selects et boutons du formulaire */
+/* Définit la largeur, le padding, la marge, la bordure, le rayon des bords et la taille de police */
 form input, form select, form button {
     width: 100%;
     padding: 10px;
@@ -94,6 +107,8 @@ form input, form select, form button {
     font-size: 16px;
 }
 
+/* Style général pour les boutons du formulaire */
+/* Configure le fond, la couleur, la bordure, le curseur et la transition */
 form button {
     background-color: #3498db;
     color: white;
@@ -102,43 +117,53 @@ form button {
     transition: background-color 0.3s ease;
 }
 
+/* Effet hover pour les boutons du formulaire */
+/* Change la couleur de fond lors du survol */
 form button:hover {
     background-color: #2980b9;
 }
 
-/* Boutons de suppression */
+/* Redéfinition du style pour les boutons de suppression dans les formulaires */
+/* Configure le fond, le padding, la taille de police, le margin, la largeur et l'alignement du texte */
 form button {
     background-color: #e74c3c;
     padding: 6px 50px;  /* Moins rétréci, mais plus compact que précédemment */
     font-size: 14px;    /* Taille du texte plus raisonnable */
     margin: 0 5px;      /* Espacement raisonnable entre les boutons */
     width: auto;        /* Laisse les boutons se redimensionner automatiquement */
-    text-align: center; /* Centrer le texte à l'intérieur du bouton */
+    text-align: center; /* Centre le texte à l'intérieur du bouton */
 }
 
+/* Effet hover pour les boutons de suppression */
+/* Change la couleur de fond lors du survol */
 form button:hover {
     background-color: #c0392b;
 }
 
-/* Pour éviter que le bouton dépasse du tableau */
+/* Empêcher que le formulaire dans une cellule de table déborde */
+/* Affiche le formulaire en ligne et empêche les retours à la ligne */
 table td form {
     display: inline-block;
     margin: 0;
     white-space: nowrap; /* Empêche le contenu de se déplacer sur plusieurs lignes */
 }
 
+/* Style de la dernière colonne dans la table */
+/* Spécifie la largeur et centre le contenu dans cette colonne */
 table td:last-child {
     width: 80px; /* Colonne contenant les boutons un peu plus large, pour une taille modérée */
-    text-align: center; /* Centrer le bouton dans la cellule */
+    text-align: center;
 }
 
-/* Pour la table, faire en sorte que les colonnes ne débordent pas */
+/* Prévenir le débordement du contenu dans les cellules de la table */
+/* Masque le texte qui déborde et ajoute des points de suspension */
 table td, table th {
     overflow: hidden; /* Masque les débordements de texte */
     text-overflow: ellipsis; /* Ajoute des points de suspension si le texte dépasse */
 }
 
-/* Limiter la largeur de la table pour éviter le débordement */
+/* Media Query pour les écrans de petite taille (max-width: 768px) */
+/* Adaptation de la table et des boutons pour les petits écrans */
 @media (max-width: 768px) {
     table {
         width: 100%;
@@ -156,7 +181,8 @@ table td, table th {
     }
 }
 
-/* Liens stylisés comme des boutons */
+/* Styles pour les liens stylisés comme des boutons */
+/* Définit l'affichage, le padding, la police, la couleur, les bordures et la transition */
 a.button {
     display: inline-block;
     padding: 10px 15px;
@@ -171,21 +197,26 @@ a.button {
     margin: 5px;
 }
 
+/* Effet hover pour les liens stylisés comme des boutons */
+/* Change la couleur de fond lors du survol */
 a.button:hover {
     background-color: #2980b9;
 }
 
+/* Style spécifique pour les boutons de suppression (classe "delete") */
+/* Définit un fond rouge pour indiquer une action destructrice */
 a.button.delete {
     background-color: #e74c3c;
 }
 
+/* Effet hover pour les boutons "delete" */
+/* Change la couleur de fond vers un ton plus foncé de rouge */
 a.button.delete:hover {
     background-color: #c0392b;
 }
 
-
-
-/* Bouton vert pour "Détails" */
+/* Style pour le bouton "Détails" (classe "details") */
+/* Attribue un fond vert pour différencier l'action, avec padding et transitions */
 a.button.details {
     background-color: #27ae60; /* Vert */
     color: white;
@@ -200,12 +231,14 @@ a.button.details {
     margin: 5px;
 }
 
+/* Effet hover pour le bouton "Détails" */
+/* Change la couleur de fond vers un vert plus foncé lors du survol */
 a.button.details:hover {
     background-color: #1e8449; /* Vert plus foncé au survol */
 }
 
-
-/* Bouton rouge pour "Annuler" */
+/* Style pour le bouton "Annuler" (classe "cancel") */
+/* Attribue un fond rouge et des caractéristiques similaires aux autres boutons */
 a.button.cancel {
     background-color: #e74c3c; /* Rouge */
     color: white;
@@ -220,12 +253,14 @@ a.button.cancel {
     margin: 5px;
 }
 
+/* Effet hover pour le bouton "Annuler" */
+/* Change la couleur de fond vers un rouge plus foncé lors du survol */
 a.button.cancel:hover {
     background-color: #c0392b; /* Rouge plus foncé au survol */
 }
 
-
-/* Bouton rouge pour les liens */
+/* Style pour les boutons rouges généraux (classe "red") */
+/* Similaire au bouton "Annuler", utilisé pour d'autres actions nécessitant du rouge */
 a.button.red {
     background-color: #e74c3c; /* Rouge */
     color: white;
@@ -240,11 +275,14 @@ a.button.red {
     margin: 5px;
 }
 
+/* Effet hover pour les boutons rouges généraux */
+/* Change la couleur de fond vers un ton plus foncé de rouge */
 a.button.red:hover {
     background-color: #c0392b; /* Rouge plus foncé au survol */
 }
 
-/* Menu de navigation */
+/* Style pour le menu de navigation */
+/* Supprime les puces, centre le contenu et ajuste les marges et le padding */
 ul {
     list-style-type: none;
     margin: 0 auto; /* Centre horizontalement */
@@ -253,33 +291,36 @@ ul {
     justify-content: center;
     border-radius: 8px;
     background: none;
-    
 }
 
-
+/* Style pour chaque élément de la liste de navigation (li) */
+/* Définit une marge horizontale et augmente la taille de la police */
 li {
     margin: 0 30px;
     font-size: 20px; /* Augmente la taille de la police */
-
 }
 
-
-
+/* Style de survol pour tous les liens */
+/* Change le fond et applique une légère transformation pour donner un effet interactif */
 a:hover {
     background-color: #2980b9;
     transform: scale(1.05);
 }
 
+/* Style spécifique pour le bouton de déconnexion (classe "logout-button") */
+/* Attribue un fond rouge pour différencier cette action */
 .logout-button {
     background-color: #e74c3c;
 }
 
+/* Effet hover pour le bouton de déconnexion */
+/* Change la couleur de fond vers un rouge plus foncé lors du survol */
 .logout-button:hover {
     background-color: #c0392b;
 }
 
-
-/* Navigation principale */
+/* Style de la navigation principale */
+/* Utilise flexbox pour aligner et espacer le contenu, et positionne la navigation */
 nav {
     display: flex;
     align-items: center;
@@ -289,6 +330,7 @@ nav {
 }
 
 /* Style initial du bouton burger */
+/* Définit le conteneur du bouton burger pour l'affichage sur mobile */
 .burger-menu {
     cursor: pointer;
     display: flex;
@@ -300,6 +342,8 @@ nav {
     position: relative;
 }
 
+/* Style pour chaque barre du bouton burger */
+/* Définit la taille, la couleur et la transition pour l'animation */
 .burger-menu span {
     display: block;
     width: 100%;
@@ -308,65 +352,71 @@ nav {
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* État du bouton burger lorsque le menu est ouvert */
+/* Animation pour la première barre lorsque le menu est ouvert */
 .burger-menu.open span:nth-child(1) {
     transform: rotate(45deg) translateY(8px);
 }
 
+/* Animation pour la deuxième barre lorsque le menu est ouvert (cachée) */
 .burger-menu.open span:nth-child(2) {
     opacity: 0;
 }
 
+/* Animation pour la troisième barre lorsque le menu est ouvert */
 .burger-menu.open span:nth-child(3) {
     transform: rotate(-45deg) translateY(-8px);
 }
 
-/* Menu initial */
+/* Style initial pour le menu de navigation mobile (classe "nav-links") */
+/* Masque le menu avec opacité, translation et désactivation des interactions */
 .nav-links {
     list-style: none;
     margin: 0;
-    padding: 10px 20px; /* Ajout de marge intérieure pour élargir horizontalement */
-    flex-direction: column;
+    padding: 10px 20px; /* Ajoute une marge intérieure */
+    flex-direction: column; /* Dispose les éléments en colonne */
     position: absolute;
     top: 60px;
     left: 20px; /* Position alignée à gauche */
     background-color: #226795;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     opacity: 0;
-    transform: translateY(-20px); /* Départ vers le haut */
-    visibility: hidden;
-    pointer-events: none;
+    transform: translateY(-20px); /* Déplacement initial vers le haut */
+    visibility: hidden; /* Masque visuellement le menu */
+    pointer-events: none; /* Désactive les interactions */
     transition: opacity 0.3s ease, transform 0.3s ease;
-    min-width: 200px; /* Largeur minimale pour éviter un affichage trop étroit */
-    border-radius: 8px; /* Optionnel : arrondir les bords */
+    min-width: 200px; /* Largeur minimale pour une bonne lisibilité */
+    border-radius: 8px; /* Coins arrondis pour un rendu moderne */
 }
 
-/* Lorsque le menu est actif */
+/* Style pour le menu de navigation lorsque le menu est actif */
+/* Rétablit l'opacité, la position et la visibilité pour permettre les interactions */
 .nav-links.active {
     opacity: 1;
-    transform: translateY(0); /* Retour à la position originale */
+    transform: translateY(0); /* Place le menu à sa position d'origine */
     visibility: visible;
     pointer-events: auto;
 }
 
-/* Style des liens */
+/* Style pour les éléments de la liste dans la navigation mobile */
+/* Ajoute des marges et aligne le texte à gauche */
 .nav-links li {
     margin: 10px 0;
-    text-align: left; /* Alignement à gauche pour un meilleur rendu */
+    text-align: left;
 }
 
+/* Style pour les liens dans la navigation mobile */
+/* Définit la couleur, le padding et la taille de police */
 .nav-links a {
-    max-width: fit-content; /* Empêche de dépasser la largeur du contenu */
+    max-width: fit-content; /* Empêche le débordement du contenu */
     color: white;
     text-decoration: none;
-    padding: 10px 20px; /* Ajout de marge intérieure pour les liens */
+    padding: 10px 20px; /* Ajoute une marge intérieure */
     display: block;
     font-size: 18px;
 }
 
-
-
-
+/* Style général pour tous les liens */
+/* Définit l'affichage, le padding, la décoration, la couleur et le fond */
 a {
     display: block;
     padding: 10px 20px;
@@ -376,11 +426,11 @@ a {
     border-radius: 4px;
     transition: background-color 0.3s ease, transform 0.2s ease;
     font-weight: bold;
-    max-width: fit-content; /* Empêche de dépasser la largeur du contenu */
-
-
+    max-width: fit-content; /* Empêche le contenu de déborder */
 }
 
+/* Style pour les liens "register-login" */
+/* Ajuste le style pour les liens d'inscription et de connexion */
 .register-login {
     display: inline-block; /* Ajuste la largeur au contenu */
     padding: 10px 20px; /* Espacement interne */
@@ -391,9 +441,11 @@ a {
     border-radius: 4px; /* Coins arrondis */
     font-weight: bold; /* Texte en gras */
     transition: background-color 0.3s ease, transform 0.2s ease; /* Animation */
-    max-width: fit-content; /* Empêche de dépasser la largeur du contenu */
+    max-width: fit-content; /* Ajustement de la largeur au contenu */
 }
 
+/* Style pour les liens "API-document" */
+/* Personnalise l'apparence du lien vers la documentation de l'API */
 .API-document {
     display: inline-block; /* Ajuste la largeur au contenu */
     padding: 10px 20px; /* Espacement interne */
@@ -404,17 +456,15 @@ a {
     border-radius: 4px; /* Coins arrondis */
     font-weight: bold; /* Texte en gras */
     transition: background-color 0.3s ease, transform 0.2s ease; /* Animation */
-    max-width: fit-content; /* Empêche de dépasser la largeur du contenu */
-    text-align: center; /* Centrer le texte si nécessaire */
+    max-width: fit-content; /* Empêche le débordement du contenu */
+    text-align: center; /* Centre le texte */
 }
 
-/* Animation au survol */
+/* Animation au survol pour les liens "API-document" */
+/* Modifie le fond, la bordure et applique une légère mise en avant */
 .API-document:hover {
-    background-color: #1a703e; /* Fond blanc au survol */
-    border: 2px solid #1a703e; /* Bordure encadrée */
-
-    color:white ;
-    transform: scale(1.05); /* Légère mise en avant */
+    background-color: #1a703e; /* Fond modifié au survol */
+    border: 2px solid #1a703e; /* Bordure modifiée */
+    color: white;
+    transform: scale(1.05); /* Légère mise en avant via agrandissement */
 }
-
-

@@ -1,43 +1,41 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <!-- Déclaration de l'encodage de caractères et configuration pour la réactivité mobile -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Lien vers la feuille de style principale -->
     <link rel="stylesheet" href="/css/styles.css">
+    <!-- Titre de la page affiché dans l'onglet du navigateur -->
     <title>Gestion des Catways</title>
 </head>
-
-
 <body>
 
-
-
-
+    <!-- En-tête de la page -->
     <header>
+        <!-- Titre principal de la page -->
         <h1>Gestion des Catways</h1>
-
         <nav>
-            <!-- Bouton Burger (visible uniquement sur PC) -->
+            <!-- Bouton Burger pour la navigation sur mobile -->
             <div class="burger-menu" id="burger-menu">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
         
-            <!-- Menu qui sera caché par défaut (mobile) et affiché lors du clic sur le bouton burger -->
+            <!-- Menu de navigation qui sera masqué par défaut sur mobile et affiché lors du clic -->
             <ul class="nav-links" id="nav-links">
                 <li><a href="/dashboard">Tableau de Bord</a></li>
                 <li><a href="/catways">Gestion des Catways</a></li>
                 <li><a href="/reservations">Gestion des Réservations</a></li>
                 <li><a href="/users">Gestion des Utilisateurs</a></li>
-                <li><a class="API-document" href="/api-docs">Documentation API</a></li>
+                <li><a class="API-document" href="/docs/Api.md">Documentation API</a></li>
                 <li><a href="/logout" class="logout-button">Se Déconnecter</a></li>
             </ul>
         </nav>
-        
     </header>
     
-    
+    <!-- Tableau affichant la liste des catways -->
     <table border="1">
       <thead>
           <tr>
@@ -48,20 +46,24 @@
           </tr>
       </thead>
       <tbody>
+          <!-- Vérification de l'existence de catways dans la variable et boucle pour afficher chaque catway -->
           <% if (catways.length > 0) { %>
               <% catways.forEach(catway => { %>
                   <tr>
+                      <!-- Affichage du numéro du catway -->
                       <td><%= catway.catwayNumber %></td> <!-- Ce champ doit correspondre au modèle -->
+                      <!-- Affichage du type du catway -->
                       <td><%= catway.catwayType %></td>
+                      <!-- Affichage de l'état du catway -->
                       <td><%= catway.catwayState %></td>
                       <td>
-                          <!-- Lien pour afficher les détails -->
+                          <!-- Lien pour afficher les détails du catway -->
                           <a href="/catways/<%= catway._id %>" class="button details">Détails</a>
                           
-                          <!-- Lien ou formulaire pour modifier l'état -->
+                          <!-- Lien pour accéder à la page de modification de l'état du catway -->
                           <a href="/catways/<%= catway._id %>/edit" class="button">Modifier l'état</a>
 
-                          <!-- Formulaire de suppression -->
+                          <!-- Formulaire pour supprimer le catway à l'aide de la méthode DELETE via method-override -->
                           <form method="POST" action="/catways/<%= catway._id %>?_method=DELETE" style="display:inline;">
                               <button>Supprimer</button>
                           </form>
@@ -69,6 +71,7 @@
                   </tr>
               <% }); %>
           <% } else { %>
+              <!-- Message affiché si aucun catway n'a été trouvé -->
               <tr>
                   <td colspan="4">Aucun catway trouvé.</td>
               </tr>
@@ -76,8 +79,9 @@
       </tbody>
   </table>
 
+    <!-- Section d'ajout d'un nouveau catway -->
     <h2>Ajouter un nouveau Catway</h2>
-    <!-- Formulaire d'ajout -->
+    <!-- Formulaire d'ajout de catway -->
     <form method="POST" action="/catways">
       <label>
         Numéro :
@@ -87,6 +91,7 @@
       <label>
         Type :
         <select name="catwayType" required>
+          <!-- Option par défaut invitant l'utilisateur à choisir un type -->
           <option value="" disabled selected>Choisissez un type</option>
           <option value="long">Long</option>
           <option value="short">Short</option>
@@ -98,23 +103,21 @@
         <input type="text" name="catwayState" required>
       </label>
       <br>
+      <!-- Bouton de soumission pour ajouter le catway -->
       <button type="submit">Ajouter</button>
     </form>
+    
     <script>
-        // Sélection des éléments HTML
+        // Sélection des éléments nécessaires pour le menu burger
         const burgerMenu = document.getElementById("burger-menu");
         const navLinks = document.getElementById("nav-links");
     
-        // Ajout d'un événement de clic pour ouvrir/fermer le menu et animer le burger
+        // Ajout d'un événement de clic qui bascule l'affichage du menu et active l'animation du burger
         burgerMenu.addEventListener("click", () => {
-            navLinks.classList.toggle("active");
-            burgerMenu.classList.toggle("open"); // Ajoute la classe "open" pour l'animation
+            navLinks.classList.toggle("active"); // Affiche ou masque le menu de navigation
+            burgerMenu.classList.toggle("open"); // Ajoute la classe "open" pour activer l'animation du burger
         });
     </script>
-    
-
-
-
 
 </body>
 </html>

@@ -1,51 +1,61 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <!-- Déclaration de l'encodage du document en UTF-8 -->
     <meta charset="UTF-8">
+    <!-- Configuration du viewport pour une bonne réactivité sur mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Titre de la page affiché dans l'onglet du navigateur -->
     <title>Gestion des Utilisateurs</title>
+    <!-- Lien vers la feuille de style principale -->
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 
 <body>
 
-<header>
-<h1>Détails de l'utilisateur</h1>
-<nav>
-    <!-- Bouton Burger (visible uniquement sur PC) -->
-    <div class="burger-menu" id="burger-menu">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
+    <!-- En-tête de la page -->
+    <header>
+        <h1>Détails de l'utilisateur</h1>
+        <nav>
+            <!-- Bouton Burger pour la navigation sur mobile -->
+            <div class="burger-menu" id="burger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
 
-    <!-- Menu qui sera caché par défaut (mobile) et affiché lors du clic sur le bouton burger -->
-    <ul class="nav-links" id="nav-links">
-        <li><a href="/dashboard">Tableau de Bord</a></li>
-        <li><a href="/catways">Gestion des Catways</a></li>
-        <li><a href="/reservations">Gestion des Réservations</a></li>
-        <li><a href="/users">Gestion des Utilisateurs</a></li>
-        <li><a class="API-document" href="/docs">Documentation API</a></li>
-        <li><a href="/logout" class="logout-button">Se Déconnecter</a></li>
-    </ul>
-</nav>
-</header>
-<p>Nom d'utilisateur: <%= user.username %></p>
-<p>Email: <%= user.email %></p>
-<a href="/users"  class="button red">Retour à la liste des utilisateurs</a>
+            <!-- Menu de navigation qui est masqué par défaut sur mobile et s'affiche lors du clic sur le burger -->
+            <ul class="nav-links" id="nav-links">
+                <li><a href="/dashboard">Tableau de Bord</a></li>
+                <li><a href="/catways">Gestion des Catways</a></li>
+                <li><a href="/reservations">Gestion des Réservations</a></li>
+                <li><a href="/users">Gestion des Utilisateurs</a></li>
+                <li><a class="API-document" href="/docs/Api.md">Documentation API</a></li>
+                <li><a href="/logout" class="logout-button">Se Déconnecter</a></li>
+            </ul>
+        </nav>
+    </header>
 
-<script>
-    // Sélection des éléments HTML
-    const burgerMenu = document.getElementById("burger-menu");
-    const navLinks = document.getElementById("nav-links");
+    <!-- Affichage des informations de l'utilisateur (données injectées avec EJS) -->
+    <p>Nom d'utilisateur: <%= user.username %></p>
+    <p>Email: <%= user.email %></p>
+    <!-- Lien pour revenir à la liste complète des utilisateurs -->
+    <a href="/users" class="button red">Retour à la liste des utilisateurs</a>
 
-    // Ajout d'un événement de clic pour ouvrir/fermer le menu et animer le burger
-    burgerMenu.addEventListener("click", () => {
-        navLinks.classList.toggle("active");
-        burgerMenu.classList.toggle("open"); // Ajoute la classe "open" pour l'animation
-    });
-</script>
+    <script>
+        // Sélectionne le bouton burger via son ID
+        const burgerMenu = document.getElementById("burger-menu");
+        // Sélectionne le menu de navigation via son ID
+        const navLinks = document.getElementById("nav-links");
+
+        // Ajoute un événement de clic sur le bouton burger pour basculer l'affichage du menu
+        burgerMenu.addEventListener("click", () => {
+            // Bascule la classe "active" sur le menu pour l'afficher ou le masquer
+            navLinks.classList.toggle("active");
+            // Bascule la classe "open" sur le bouton burger pour activer l'animation associée
+            burgerMenu.classList.toggle("open"); // Ajoute la classe "open" pour l'animation
+        });
+    </script>
 
 </body>
 </html>
