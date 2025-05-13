@@ -8,6 +8,9 @@ const session = require('express-session'); // Pour gérer les sessions utilisat
 const flash = require('connect-flash'); // Pour les messages flash (succès/erreur) entre les requêtes
 const authRoutes = require('./routes/auth'); // Importation des routes d'authentification définies dans ./routes/auth.js
 const passport = require('passport'); // Bibliothèque pour gérer l'authentification
+const cors = require("cors");   //pour gérer la politique de cors
+
+
 
 // Initialisation de l'application Express
 const app = express();
@@ -64,6 +67,15 @@ app.use((req, res, next) => {
 // Initialisation de Passport pour la gestion de l'authentification
 app.use(passport.initialize());
 app.use(passport.session()); // Permet à Passport de gérer les sessions via express-session
+
+
+// Configuration de CORS
+app.use(cors({
+    origin: "https://creer-une-api-pour-le-port-de-plaisance.onrender.com", // Remplacez par l'URL de votre frontend
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
 
 // Définition des schémas Mongoose pour les ressources de l'application
 

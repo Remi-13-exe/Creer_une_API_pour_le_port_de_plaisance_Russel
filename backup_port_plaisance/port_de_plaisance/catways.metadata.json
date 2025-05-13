@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"catwayNumber":{"$numberInt":"1"}},"name":"catwayNumber_1","background":true,"unique":true}],"uuid":"cb45125d8829413f8ba585d717b3f3f1","collectionName":"catways","type":"collection"}

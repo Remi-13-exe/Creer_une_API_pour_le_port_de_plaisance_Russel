@@ -53,7 +53,7 @@ router.post('/register', async (req, res) => {
 
     // Une fois l'utilisateur créé, rediriger vers la page indiquée (ici "/reservation")
     // tu peux adapter cette redirection en fonction de ton application
-    res.redirect('/reservation');  // Ici, tu peux remplacer '/reservation' par la route que tu veux
+res.status(201).json({ message: 'Inscription réussie !' });
   } catch (err) {
     // En cas d'erreur, afficher l'erreur dans la console et retourner une réponse 500
     console.error(err);
